@@ -1,8 +1,8 @@
-package com.ukma.springproject.services;
+package com.ukma.springproject.repository.abstractions;
 
 import com.ukma.springproject.domain.Comment;
 
-public interface CommentService {
+public interface CommentDao {
     void insert(Comment id);
     void update(int commentId, Comment id);
     void delete(int commentId);

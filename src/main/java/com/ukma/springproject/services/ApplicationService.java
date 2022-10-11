@@ -1,11 +1,14 @@
 package com.ukma.springproject.services;
 
 import com.ukma.springproject.domain.Application;
+import com.ukma.springproject.repository.abstractions.ApplicationDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface ApplicationService {
-    void insert(Application application);
-    void update(int applicationId, Application application);
-    void delete(int applicationId);
+    boolean apply(Application application);
 
-    Application findById(int applicationId);
+    boolean approve(Application application);
+
+    boolean deny(Application application);
 }

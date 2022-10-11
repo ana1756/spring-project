@@ -1,8 +1,8 @@
-package com.ukma.springproject.services;
+package com.ukma.springproject.repository.abstractions;
 
 import com.ukma.springproject.domain.User;
 
-public interface UserService {
+public interface UserDao {
     void insert(User user);
     void update(int userId, User user);
     void delete(int userId);
