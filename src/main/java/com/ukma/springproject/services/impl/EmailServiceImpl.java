@@ -3,7 +3,6 @@ package com.ukma.springproject.services.impl;
 import com.ukma.springproject.services.EmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service

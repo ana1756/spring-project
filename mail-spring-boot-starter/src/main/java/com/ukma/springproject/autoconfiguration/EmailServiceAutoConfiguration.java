@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@ConditionalOnClass(EmailService.class)
+@PropertySource(value = {"classpath:starterEmail.properties"})
 @ConditionalOnMissingBean(EmailService.class)
 public class EmailServiceAutoConfiguration {
 
