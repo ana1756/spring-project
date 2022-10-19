@@ -1,4 +1,4 @@
-package com.ukma.springproject;
+package com.ukma.springproject.services;
 
 import com.mailjet.client.ClientOptions;
 import com.mailjet.client.MailjetClient;
@@ -32,8 +32,8 @@ public class MailjetEmailTest {
 
         TransactionalEmail message = TransactionalEmail
                 .builder()
-                .to(new SendContact("dan05072003@gmail.com"))
-                .from(new SendContact("dan05072003@gmail.com"))
+                .to(new SendContact("danylo.nechyporchuk@ukma.edu.ua"))
+                .from(new SendContact("danylo.nechyporchuk@ukma.edu.ua"))
                 .subject("Test email")
                 .htmlPart("<h1> Hello. Just testing</h1>")
                 .build();

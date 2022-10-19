@@ -57,6 +57,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.mailjet</groupId>
+            <artifactId>mailjet-client</artifactId>
+            <version>5.2.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.ukma</groupId>
             <artifactId>mail-spring-boot-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
@@ -64,6 +70,15 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
