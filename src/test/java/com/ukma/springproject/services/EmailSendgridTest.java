@@ -1,4 +1,4 @@
-package com.ukma.springproject.services.impl;
+package com.ukma.springproject.services;
 
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -7,30 +7,28 @@ import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
-import com.ukma.springproject.services.EmailService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.IOException;
-
-@Service
-@ConditionalOnProperty(prefix = "mail", name = "useDefaultMail", havingValue = "false" )
-public class EmailServiceImpl implements EmailService {
+@SpringBootTest
+public class EmailSendgridTest {
 
     @Value("${mail.sendgrid.key}")
     private String api_key;
 
-    @Override
-    public void sendEmail(String to, String subject, String message) {
-        Email fromEmail = new Email("danylo.nechyporchuk@ukma.edu.ua");
-        Email toEmail = new Email(to);
-        Content content = new Content("text/plain", message);
-        Mail email = new Mail(fromEmail, subject, toEmail, content);
+    @Test
+    void sendTestEmail() {
+        Email from = new Email("danylo.nechyporchuk@ukma.edu.ua");
+        Email to = new Email("danylo.nechyporchuk@ukma.edu.ua");
+        String subject = "Test email via sendgrid";
+        Content content = new Content("text/plain", "Hello there. Just testing email sending with Sendgrid");
+        Mail email = new Mail(from, subject, to, content);
 
         SendGrid sendgrid = new SendGrid(api_key);
         Request request = new Request();
-        try{
+        Assertions.assertDoesNotThrow(() -> {
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(email.build());
@@ -39,8 +37,6 @@ public class EmailServiceImpl implements EmailService {
             System.out.println(response.getStatusCode());
             System.out.println(response.getBody());
             System.out.println(response.getHeaders());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 }
