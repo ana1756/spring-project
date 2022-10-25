@@ -12,7 +12,6 @@ public interface UserService {
     void delete(Long id);
     User findById(Long userId);
     User findByEmail(String email);
-    List<User> findAllClients();
-    List<User> findAllAdmins();
-    List<User> findAllDevelopers();
+    List<User> findAllUsersByRole(String role);
+
 }
