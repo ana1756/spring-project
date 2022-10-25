@@ -1,11 +1,15 @@
 package com.ukma.springproject.services;
 
 import com.ukma.springproject.domain.Application;
+import com.ukma.springproject.domain.User;
+
+import java.util.List;
 
 public interface ApplicationService {
-    void insert(Application application);
-    void update(int applicationId, Application application);
-    void delete(int applicationId);
 
-    Application findById(int applicationId);
+    Application save(Application application);
+    void delete(Application application);
+    Application findById(Long applicationId);
+    List<Application> getAllApplicationsByDeveloper(User user);
+    List<Application> getAllApplications();
 }

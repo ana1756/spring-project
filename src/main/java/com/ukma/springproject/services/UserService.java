@@ -2,11 +2,17 @@ package com.ukma.springproject.services;
 
 import com.ukma.springproject.domain.User;
 
-public interface UserService {
-    void insert(User user);
-    void update(int userId, User user);
-    void delete(int userId);
+import java.util.List;
 
-    User findById(int userId);
-    User findByName(String firstAndLastname);
+public interface UserService {
+
+    User save(User user);
+    User login(String email, String password);
+    User edit(User user);
+    void delete(Long id);
+    User findById(Long userId);
+    User findByEmail(String email);
+    List<User> findAllClients();
+    List<User> findAllAdmins();
+    List<User> findAllDevelopers();
 }
