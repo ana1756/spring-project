@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
+    boolean notifyAdminsByEmail (String message);
     User save(User user);
     User login(String email, String password);
     User edit(User user);

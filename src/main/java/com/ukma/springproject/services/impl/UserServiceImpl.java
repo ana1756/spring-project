@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,9 +23,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean notifyAdminsByEmail(String message) {
+        List<User> admins = userRepository.findAllByRole(User.ADMIN);
+        admins.forEach(user -> emailService.sendEmail(user.getEmail(), "", message));
+        return true;
+    }
+
+    @Override
     public User save(User user) {
-        User local = userRepository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new RuntimeException("User with " + user.getEmail() + " email already exists"));
         return userRepository.save(user);
     }
 
