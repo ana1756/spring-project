@@ -65,7 +65,11 @@ class SpringProjectApplicationTests {
         user1.setLastName("newemail@me.com");
         user1.setPassword("newemail@me.com");
         userService.save(user);
-        userService.save(user1);
+       // userService.save(user1);
+        // fixed
+        Assertions.assertThrows(RuntimeException.class, () -> userService.save(user1),
+                "RuntimeException must be thrown when the user's email isn't unique");
+
         //Throws exception at find,
         //but from what I understand it should throw something earlier, at save, since the email is not unique
         Assertions.assertEquals(user, userService.findByEmail("newemail@me.com"));
@@ -98,6 +102,18 @@ class SpringProjectApplicationTests {
         String expectedOutput = user1.getEmail() + user2.getEmail() + user3.getEmail();
         userService.notifyAdminsByEmail("");
         Assertions.assertEquals(expectedOutput, testConf.getOutputWrapper().getOutput());
+    }
+
+    @Test
+    void insertUsersWithTheSameEmailsTest() {
+        userRepository.deleteAll();
+        User user = new User("Name", "Surname",
+                "email@mail.com", "12345", User.CLIENT);
+        User user1 = new User("Name1", "Surname1",
+                "email@mail.com", "54321", User.DEVELOPER);
+
+        userService.save(user);
+        Assertions.assertThrows(RuntimeException.class, () -> userService.save(user1));
     }
 
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 @Service
@@ -31,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        Optional<User> local = userRepository.findByEmail(user.getEmail());
+        if (local.isPresent())
+            throw new RuntimeException("User with " + user.getEmail() + " email already exists");
         return userRepository.save(user);
     }
 
