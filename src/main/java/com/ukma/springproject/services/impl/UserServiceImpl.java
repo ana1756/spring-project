@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        User local = userRepository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new RuntimeException("User with " + user.getEmail() + " email already exists"));
+        boolean local = userRepository.findByEmail(user.getEmail()).isEmpty();
+        if (!local) throw new RuntimeException("User with " + user.getEmail() + " already exists.");
         return userRepository.save(user);
     }
 
