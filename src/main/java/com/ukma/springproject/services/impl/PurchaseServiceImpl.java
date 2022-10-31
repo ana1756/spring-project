@@ -1,7 +1,8 @@
 package com.ukma.springproject.services.impl;
 
 import com.ukma.springproject.domain.Purchase;
-import com.ukma.springproject.repository.PurchaseRepository;
+import com.ukma.springproject.domain.User;
+import com.ukma.springproject.repositories.PurchaseRepository;
 import com.ukma.springproject.services.EmailService;
 import com.ukma.springproject.services.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,29 +23,30 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public void insert(Purchase purchase) {
+    public Purchase save(Purchase purchase) {
+        return purchaseRepository.save(purchase);
+    }
 
-//        purchaseRepository.save(purchase);
-//        emailService.sendEmail("", "", "");
+
+    @Override
+    public Purchase edit(Purchase purchase) {
+        return purchaseRepository.findById(purchase.getId())
+                .orElseThrow(()-> new RuntimeException("Purchase " + purchase.getId() + " does not exist"));
     }
 
     @Override
-    public void update(int purchaseId, Purchase purchase) {
-
+    public Purchase findById(Long id) {
+        return purchaseRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Purchase " + id + " does not exist"));
     }
 
     @Override
-    public void delete(int purchaseId) {
-
+    public List<Purchase> findByUser(User user) {
+        return purchaseRepository.findAllByUser(user);
     }
 
     @Override
-    public Purchase findById(int purchaseId) {
-        return null;
-    }
-
-    @Override
-    public List<Purchase> findByUserId(int userId) {
-        return null;
+    public List<Purchase> findAllPurchases() {
+        return (List<Purchase>) purchaseRepository.findAll();
     }
 }

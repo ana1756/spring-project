@@ -1,18 +1,32 @@
 package com.ukma.springproject.domain;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Data
-@RequiredArgsConstructor
+@Entity
+@Table(name = "comments")
 public class Comment {
 
-    private final int id;
-    private final String text;
-    private final Timestamp dateCreated;
-    private final User user;
-    private final Product product;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "comment_id", nullable = false)
+    private Long id;
+
+    @Column(name = "text", nullable = false)
+    private  String text;
+
+    @Column(name = "date_created", nullable = false)
+    private  Timestamp dateCreated;
+
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private  User user;
+
+    @ManyToOne
+    @JoinColumn(name = "product")
+    private  Product product;
 
 }

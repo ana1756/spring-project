@@ -1,17 +1,29 @@
 package com.ukma.springproject.domain;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Data
-@RequiredArgsConstructor
+@Entity
+@Table(name="purchases")
 public class Purchase {
 
-    private final int id;
-    private final Timestamp dateCreated;
-    private final Key key;
-    private final User user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "purchase_id", nullable = false, unique = true)
+    private Long id;
+
+    @Column(name = "date_created", nullable = false)
+    private Timestamp dateCreated;
+
+    @ManyToOne
+    @JoinColumn(name = "key")
+    private  Key key;
+
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private  User user;
 
 }

@@ -1,13 +1,24 @@
 package com.ukma.springproject.domain;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
-@RequiredArgsConstructor
+@Entity
+@Table(name = "keys")
 public class Key {
 
-    private final int id;
-    private final String value;
-    private final Product product;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "key_id", nullable = false, unique = true)
+    private Long id;
+
+    @Column(name = "value", nullable = false, unique = true)
+    private String value;
+
+    @ManyToOne
+    @JoinColumn(name = "product")
+    private Product product;
+
 }
