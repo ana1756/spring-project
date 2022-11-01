@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="com.ukma.springproject.logger" status="WARN">
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d [%t] %-5level %logger{36} - user.firstName=%X{user.firstName} user.lastName=%X{user.lastName} - %msg%n%throwable"/>
+            <MarkerFilter marker="admin" onMatch="ACCEPT" onMismatch="DENY" />
+        </Console>
+        <MapAppender name="MapAppender" />
+        <CustomConsoleAppender name="CustomConsoleAppender" />
+        <CustomLayout/>
+    </Appenders>
+    <Loggers>
+        <Root level="ERROR">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="MapAppender" />
+            <AppenderRef ref="CustomConsoleAppender" />
+        </Root>
+    </Loggers>
+</Configuration>

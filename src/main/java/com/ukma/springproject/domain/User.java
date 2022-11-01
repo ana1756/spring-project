@@ -2,6 +2,10 @@ package com.ukma.springproject.domain;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,6 +15,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Table(name = "users")
 public class User {
+    private static final Logger logger = LogManager.getLogger();
 
     public static final String ADMIN = "admin";
     public static final String DEVELOPER = "developer";
@@ -49,5 +54,6 @@ public class User {
         this.email = email;
         this.password = password;
         this.role = role;
+        logger.info(role, "Admin user is created.");
     }
 }

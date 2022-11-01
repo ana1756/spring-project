@@ -4,6 +4,7 @@ import com.ukma.springproject.domain.User;
 import com.ukma.springproject.repositories.UserRepository;
 import com.ukma.springproject.services.EmailService;
 import com.ukma.springproject.services.UserService;
+import org.apache.logging.log4j.ThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,9 @@ public class UserServiceImpl implements UserService {
         Optional<User> local = userRepository.findByEmail(user.getEmail());
         if (local.isPresent())
             throw new RuntimeException("User with " + user.getEmail() + " email already exists");
+        ThreadContext.put("user.firstName", user.getFirstName());
+        ThreadContext.put("user.lastName", user.getLastName());
+        ThreadContext.clearAll();
         return userRepository.save(user);
     }
 
