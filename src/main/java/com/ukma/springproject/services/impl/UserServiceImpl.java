@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        Optional<User> local = userRepository.findByEmail(user.getEmail());
-        if (local.isPresent())
-            throw new RuntimeException("User with " + user.getEmail() + " email already exists");
+//        Optional<User> local = userRepository.findByEmail(user.getEmail());
+//        if (local.isPresent())
+//            throw new RuntimeException("User with " + user.getEmail() + " email already exists");
         ThreadContext.put("user.firstName", user.getFirstName());
         ThreadContext.put("user.lastName", user.getLastName());
         ThreadContext.clearAll();
@@ -50,15 +50,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User edit(User user) {
-        User local = userRepository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new RuntimeException("User with " + user.getEmail() + " email does not exist"));
+        //userRepository.findByEmail(user.getEmail()).orElseThrow(() -> new RuntimeException("User with " + user.getEmail() + " email does not exist"));
         return userRepository.save(user);
     }
 
     @Override
     public void delete(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User " + id + " does not exist"));
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User " + id + " does not exist"));
         userRepository.delete(user);
     }
 

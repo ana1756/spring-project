@@ -18,7 +18,7 @@ public class Product {
     @Column(name = "date_created", nullable = false)
     private  Timestamp dateCreated;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "application")
     private  Application application;
 

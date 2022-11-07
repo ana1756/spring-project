@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-@TestPropertySource(properties = "spring.datasource.url=jdbc:sqlite:test-file.db")
+@TestPropertySource(properties = "spring.datasource.url=jdbc:h2:file:./test-file-h2.db")
+@TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=create-drop")
 class SpringProjectApplicationTests {
 
     @TestConfiguration
@@ -65,7 +66,6 @@ class SpringProjectApplicationTests {
         user1.setLastName("newemail@me.com");
         user1.setPassword("newemail@me.com");
         userService.save(user);
-       // userService.save(user1);
         // fixed
         Assertions.assertThrows(RuntimeException.class, () -> userService.save(user1),
                 "RuntimeException must be thrown when the user's email isn't unique");
