@@ -30,9 +30,9 @@ public class Application {
     @JoinColumn(name = "category", nullable = false)
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "developer")
-    private  User developer;
+    private User developer;
 
     @ManyToMany
     @JoinTable(
