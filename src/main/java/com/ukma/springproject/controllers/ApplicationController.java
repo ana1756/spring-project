@@ -3,6 +3,9 @@ package com.ukma.springproject.controllers;
 import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.repositories.ApplicationRepository;
 import com.ukma.springproject.services.ApplicationService;
+import com.ukma.springproject.services.exceptions.ApplicationNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,5 +51,10 @@ public class ApplicationController {
     @GetMapping("/developer/{id}")
     List<Application> allByDev(@PathVariable Long id) {
         return applicationService.getAllApplicationsByDeveloper(id);
+    }
+
+    @ExceptionHandler(ApplicationNotFoundException.class)
+    ResponseEntity<String> handleApplicationException(ApplicationNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

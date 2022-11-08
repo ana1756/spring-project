@@ -3,7 +3,7 @@ package com.ukma.springproject.services.impl;
 import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.repositories.ApplicationRepository;
 import com.ukma.springproject.services.ApplicationService;
-import com.ukma.springproject.services.exceptions.ApplicationException;
+import com.ukma.springproject.services.exceptions.ApplicationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public Application findById(Long applicationId) {
         return applicationRepository.findById(applicationId)
-                .orElseThrow(() -> new ApplicationException("Application by id " + applicationId + " does not exist"));
+                .orElseThrow(() -> new ApplicationNotFoundException("Application by id " + applicationId + " does not exist"));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public Application edit(Application application) {
         return applicationRepository.findById(application.getId())
-                .map(app -> applicationRepository.save(application)).orElseThrow(() -> new ApplicationException
+                .map(app -> applicationRepository.save(application)).orElseThrow(() -> new ApplicationNotFoundException
                         ("Entry with id " + application.getId() + " did not exist"));
     }
 }
