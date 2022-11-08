@@ -6,6 +6,7 @@ import com.ukma.springproject.domain.User;
 import com.ukma.springproject.repositories.ApplicationRepository;
 import com.ukma.springproject.repositories.CategoryRepository;
 import com.ukma.springproject.repositories.UserRepository;
+import com.ukma.springproject.services.NameNationalityPredictorService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,10 @@ import java.sql.Timestamp;
 class LoadDatabase {
 
     @Bean
-    CommandLineRunner initDatabase(UserRepository userRepository, ApplicationRepository applicationRepository, CategoryRepository categoryRepository) {
+    CommandLineRunner initDatabase(UserRepository userRepository,
+                                   ApplicationRepository applicationRepository,
+                                   CategoryRepository categoryRepository,
+                                   NameNationalityPredictorService currencyExchangeService) {
 
         return args -> {
             User user1 = new User();
@@ -36,6 +40,7 @@ class LoadDatabase {
             category = categoryRepository.save(category);
             application.setCategory(category);
             applicationRepository.save(application);
+            System.out.println(currencyExchangeService.getNationality("Ukraine"));
         };
     }
 }
