@@ -9,9 +9,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
-@RequestMapping(path = "/comment")
+@RequestMapping(path = "/comments")
 public class CommentController {
     private final CommentService commentService;
 
@@ -22,6 +23,23 @@ public class CommentController {
     @PostMapping()
     Comment createComment(@Valid @RequestBody Comment comment) {
         return commentService.save(comment);
+    }
+
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable Long id) {
+        var dummy = new Comment();
+        dummy.setId(id);
+        commentService.delete(dummy);
+    }
+
+    @GetMapping("/{id}")
+    Comment getById(@PathVariable Long id) {
+        return commentService.findById(id);
+    }
+
+    @GetMapping("/user/{id}")
+    List<Comment> getAllByUserId(@PathVariable Long id) {
+        return commentService.findByUser(id);
     }
 
     @ExceptionHandler(CommentNotFoundException.class)

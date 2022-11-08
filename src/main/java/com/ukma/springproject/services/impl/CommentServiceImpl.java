@@ -4,6 +4,7 @@ import com.ukma.springproject.domain.Comment;
 import com.ukma.springproject.domain.User;
 import com.ukma.springproject.repositories.CommentRepository;
 import com.ukma.springproject.services.CommentService;
+import com.ukma.springproject.services.exceptions.CommentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +33,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment findById(Long id) {
         return commentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Comment " + id + " does nor exist"));
+                .orElseThrow(() -> new CommentNotFoundException("Comment " + id + " does nor exist"));
     }
 
     @Override
-    public List<Comment> findByUser(User user) {
-        return commentRepository.findAllByUser(user);
+    public List<Comment> findByUser(Long id) {
+        return commentRepository.findAllByUserId(id);
     }
 }
