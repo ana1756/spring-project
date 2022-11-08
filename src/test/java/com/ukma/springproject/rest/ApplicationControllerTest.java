@@ -17,9 +17,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 
 import java.sql.Timestamp;
@@ -113,5 +111,25 @@ class ApplicationControllerTest {
                 .delete("http://localhost:" + port + "/application/" + application.getId());
         Assertions.assertThat(restTemplate.getForObject("http://localhost:" + port + "/application/all", String.class))
                 .doesNotContain(application.getId().toString());
+    }
+
+    @Test
+    void testBadRequestPrice() throws JsonProcessingException {
+        var user = userRepository.findByEmail("adminTestLocal@admin.com").orElseThrow();
+        Application application = new Application();
+        application.setName("VeryNewName");
+        application.setPrice(-2.433);
+        application.setDeveloper(user);
+        application.setDateCreated(new Timestamp(System.currentTimeMillis()));
+        application.setCategory(categoryRepository.findCategoryByName("ADMIN").orElseThrow());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> request =
+                new HttpEntity<>(jsonMapper.writeValueAsString(application), headers);
+        ResponseEntity<String> application1 = restTemplate
+                .postForEntity("http://localhost:" + port + "/application/create", request, String.class);
+
+        Assertions.assertThat(application1).isNotNull();
+        Assertions.assertThat(application1.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 }

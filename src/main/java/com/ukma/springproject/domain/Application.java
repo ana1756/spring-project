@@ -3,6 +3,8 @@ package com.ukma.springproject.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -17,10 +19,11 @@ public class Application {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    private  String name;
+    private String name;
 
     @Column(name = "price", nullable = false)
-    private  double price;
+    @Min(value = 0L)
+    private double price;
 
     @Column(name = "date_created")
     private Timestamp dateCreated;
@@ -28,10 +31,12 @@ public class Application {
 
     @ManyToOne
     @JoinColumn(name = "category", nullable = false)
+    @NotNull
     private Category category;
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "developer")
+    @NotNull
     private User developer;
 
     @ManyToMany

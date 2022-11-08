@@ -6,8 +6,10 @@ import com.ukma.springproject.services.ApplicationService;
 import com.ukma.springproject.services.exceptions.ApplicationNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +29,7 @@ public class ApplicationController {
     }
 
     @PostMapping("/create")
-    Application createApplication(@RequestBody Application application) {
+    Application createApplication(@Valid @RequestBody Application application) {
         return applicationService.save(application);
     }
 
@@ -37,7 +39,7 @@ public class ApplicationController {
     }
 
     @PutMapping("/edit")
-    Application editApplication(@RequestBody Application application) {
+    Application editApplication(@Valid @RequestBody Application application) {
         return applicationService.edit(application);
     }
 
@@ -56,5 +58,10 @@ public class ApplicationController {
     @ExceptionHandler(ApplicationNotFoundException.class)
     ResponseEntity<String> handleApplicationException(ApplicationNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ResponseEntity<String> handleApplicationException(MethodArgumentNotValidException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
