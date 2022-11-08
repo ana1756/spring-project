@@ -11,7 +11,7 @@ public class TestOutputWrapper {
         return outputMock.toString();
     }
 
-    public void clean () {
+    public void clean() {
         outputMock = new StringBuilder();
     }
 }
