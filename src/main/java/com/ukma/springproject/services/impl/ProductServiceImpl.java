@@ -1,10 +1,12 @@
 package com.ukma.springproject.services.impl;
 
+import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.domain.Category;
 import com.ukma.springproject.domain.Product;
 import com.ukma.springproject.domain.User;
 import com.ukma.springproject.repositories.ProductRepository;
 import com.ukma.springproject.services.ProductService;
+import com.ukma.springproject.services.exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +39,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(Long productId) {
-       return prodRepository.findById(productId)
-               .orElseThrow(() -> new RuntimeException("Product " + productId + " does not exist"));
+        return prodRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product " + productId + " does not exist"));
     }
 
     @Override
@@ -54,5 +56,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findByDeveloper(User user) {
         return prodRepository.findAllByApplicationDeveloper(user);
+    }
+
+    @Override
+    public Application findProductApplication() {
+        return null;
     }
 }

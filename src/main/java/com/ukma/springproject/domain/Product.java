@@ -16,14 +16,14 @@ public class Product {
     private Long id;
 
     @Column(name = "date_created", nullable = false)
-    private  Timestamp dateCreated;
+    private Timestamp dateCreated;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "application")
-    private  Application application;
+    private Application application;
 
     @ManyToOne
     @JoinColumn(name = "admin")
-    private  User admin;
+    private User admin;
 
 }

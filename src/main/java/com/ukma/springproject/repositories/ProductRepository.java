@@ -12,6 +12,6 @@ import java.util.List;
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
     List<Product> findAllByApplicationCategory(Category category);
-    List<Product> findAllByApplicationDeveloper(User user);
 
+    List<Product> findAllByApplicationDeveloper(User user);
 }
