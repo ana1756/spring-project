@@ -6,6 +6,7 @@ import com.ukma.springproject.domain.User;
 import com.ukma.springproject.repositories.ApplicationRepository;
 import com.ukma.springproject.repositories.CategoryRepository;
 import com.ukma.springproject.repositories.UserRepository;
+import com.ukma.springproject.services.EuroConversionRateService;
 import com.ukma.springproject.services.NameNationalityPredictorService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,8 @@ class LoadDatabase {
     CommandLineRunner initDatabase(UserRepository userRepository,
                                    ApplicationRepository applicationRepository,
                                    CategoryRepository categoryRepository,
-                                   NameNationalityPredictorService currencyExchangeService) {
+                                   NameNationalityPredictorService currencyExchangeService,
+                                   EuroConversionRateService euroConversionRateService) {
 
         return args -> {
             User user1 = new User();
@@ -41,6 +43,7 @@ class LoadDatabase {
             application.setCategory(category);
             applicationRepository.save(application);
             System.out.println(currencyExchangeService.getNationality("Ukraine"));
+            System.out.println(euroConversionRateService.getEuroConversionRate());
         };
     }
 }
