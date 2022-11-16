@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "2e6689a6-b1d5-4058-9730-788064c16cad",
+		"name": "Practice7",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24447951"
+	},
+	"item": [
+		{
+			"name": "get all applications",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\r",
+							"    \"response valid with a body\",\r",
+							"    function () {\r",
+							"        pm.response.to.be.ok;\r",
+							"        pm.response.to.be.withBody;\r",
+							"        pm.response.to.be.json;\r",
+							"    }\r",
+							");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/application/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"application",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post a new application",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response should have json with name postReq and price 0.3\",\r",
+							" () => {\r",
+							"     const responseJson = pm.response.json();\r",
+							"     pm.expect(responseJson.name).to.eql(\"postReq\");\r",
+							"     pm.expect(responseJson.price).to.eql(0.3);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 12,\r\n  \"name\": \"postReq\",\r\n  \"price\": 0.3,\r\n  \"dateCreated\": \"2022-11-16T00:04:00.157Z\",\r\n  \"category\": {\r\n            \"id\": 2,\r\n            \"name\": \"ADMIN\"\r\n        },\r\n  \"developer\": {\r\n            \"id\": 1,\r\n            \"firstName\": \"admin\",\r\n            \"lastName\": \"admin\",\r\n            \"email\": \"admin@admin.com\",\r\n            \"password\": \"admin\",\r\n            \"dateCreated\": null,\r\n            \"balance\": null,\r\n            \"role\": \"admin\"\r\n        },\r\n  \"genres\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/application/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"application",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get application by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response should have json with application with id 3\",\r",
+							" () => {\r",
+							"     const responseJson = pm.response.json();\r",
+							"     pm.expect(responseJson.id).to.eql(3);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/application/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"application",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all applications by developer id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response should have json with application with developer id 1\",\r",
+							" () => {\r",
+							"     const responseJson = pm.response.json();\r",
+							"     pm.expect(responseJson[0].developer.id).to.eql(1);\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/application/developer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"application",
+						"developer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get application by nonexistent developer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response should have json with empty array\",\r",
+							" () => {\r",
+							"     const responseJson = pm.response.json();\r",
+							"     pm.expect(responseJson).to.be.empty;\r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/application/developer/10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"application",
+						"developer",
+						"10"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
