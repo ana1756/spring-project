@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Game Store</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/general.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+</head>
+
+<body class="body-container">
+<!-- HEADER -->
+<header th:insert="home :: header">
+</header>
+<!-- HEADER -->
+
+<!-- MAIN -->
+<main>
+    <div class="app-form-container">
+        <!-- FORM -->
+        <form method="POST" th:action="@{/applications/create}" th:object="${app}" class="col-container">
+            <div class="form-field">
+                <label>Title</label>
+                <input type="text" th:field="*{name}">
+            </div>
+
+            <div class="form-field">
+                <label>Price</label>
+                <input type="number" th:field="*{price}" placeholder="0.0" min="0" step="0.5">
+            </div>
+
+
+            <div class="form-field">
+                <label>Description</label>
+                <textarea name="userName" th:field="*{description}" rows="4"></textarea>
+            </div>
+
+            <div class="checkbox-container">
+
+                <span th:each="genre : ${genres}" style="width: 120px">
+                    <label class="genre-label" th:text="${genre.name}"></label>
+                    <input type="checkbox" th:value="${genre.name}" name="genre" th:field="*{genres}">
+                </span>
+            </div>
+
+            <div class="form-file-field form-field">
+                <label class="form-file-field-label" for="imageInput">Select image...</label>
+                <input type="file" name="image" id="imageInput">
+            </div>
+<!--            <input type="hidden" th:field="*{developer}" th:value="1">-->
+<!--            <input type="hidden" th:field="*{dateCreated}"-->
+<!--                   th:value="${#calendars.format(#calendars.createNow(), 'yyyy.MMM.dd HH:mm')}">-->
+<!--            <input type="hidden" th:field="*{image}" value="pathpathpathpath">-->
+            <div>
+                <button class="transparent-button submit-button" type="submit">Publish</button>
+            </div>
+        </form>
+        <!-- FORM -->
+    </div>
+</main>
+<!-- MAIN -->
+
+<!-- FOOTER -->
+<footer th:insert="home :: footer">
+</footer>
+<!-- FOOTER -->
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Game Store</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/general.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+</head>
+
+<body class="body-container">
+<!-- HEADER -->
+<header th:insert="home :: header">
+</header >
+<!-- HEADER -->
+
+<!-- MAIN -->
+<main class="product-container">
+
+    <div  class="product-card-container">
+        <div class="product-image-container">
+            <img class="p-card-image" th:src="@{/images/product-default-img.png}">
+        </div>
+        <div class="product-info-container">
+            <div class="p-card-header">
+                <a th:text="${product.application.name}" class="p-card-title"></a>
+                <button class="transparent-button">BUY</button>
+            </div>
+
+            <div class="genres-container">
+                    <span th:each="gen: ${product.application.genres}"
+                          th:text="${gen.name}"
+                          class="p-card-genre"></span>
+            </div>
+            <hr>
+            <div class="description-container">
+                <p th:text="${product.application.description}">
+                </p>
+                <span th:text="${product.application.price}" class="p-card-price">8.2$</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- COMMENT CARD -->
+    <div th:each="comment: ${comments}" class="comment-card">
+        <div class="comment-image-container">
+            <img class="c-card-image" th:src="@{/images/avatar.jpg}" width="100" height="100">
+        </div>
+
+        <div class="comment-info-container">
+            <div class="c-card-header">
+                <span th:text="${comment.user.username}" class="c-card-title"></span>
+                <span th:text="${comment.dateCreated}" class="c-card-date"></span>
+            </div>
+            <p th:text="${comment.content}" class="c-card-description">
+            </p>
+        </div>
+    </div>
+    <!-- COMMENT CARD -->
+
+</main>
+<!-- MAIN -->
+
+<!-- FOOTER -->
+<footer th:insert="home :: footer">
+</footer>
+<!-- FOOTER -->
+</body>
+
+</html>
