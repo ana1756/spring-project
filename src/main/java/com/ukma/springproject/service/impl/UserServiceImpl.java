@@ -15,19 +15,19 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
 
-   // private final PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     @Autowired
-    public  UserServiceImpl(UserRepository repository
-           // , PasswordEncoder encoder
+    public UserServiceImpl(UserRepository repository
+            , PasswordEncoder encoder
     ) {
         this.repository = repository;
-        // this.encoder = encoder;
+        this.encoder = encoder;
     }
 
     @Override
     public void create(User user) {
-      //  user.setPassword(encoder.encode(user.getPassword()));
+        user.setPassword(encoder.encode(user.getPassword()));
         repository.save(user);
     }
 
