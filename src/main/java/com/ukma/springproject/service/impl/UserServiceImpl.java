@@ -1,0 +1,58 @@
+package com.ukma.springproject.service.impl;
+
+import com.ukma.springproject.domain.Role;
+import com.ukma.springproject.domain.User;
+import com.ukma.springproject.repositories.UserRepository;
+import com.ukma.springproject.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository repository;
+
+   // private final PasswordEncoder encoder;
+
+    @Autowired
+    public  UserServiceImpl(UserRepository repository
+           // , PasswordEncoder encoder
+    ) {
+        this.repository = repository;
+        // this.encoder = encoder;
+    }
+
+    @Override
+    public void create(User user) {
+      //  user.setPassword(encoder.encode(user.getPassword()));
+        repository.save(user);
+    }
+
+    @Override
+    public void update(Long id, User user) {
+        // TODO: 02.12.2022
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.delete(findById(id));
+    }
+
+    @Override
+    public User findById(Long id) {
+        return repository.findById(id).get();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return repository.readByEmail(email);
+    }
+
+    @Override
+    public List<User> findByRole(Role role) {
+        return repository.readAllByRole(role);
+    }
+}
