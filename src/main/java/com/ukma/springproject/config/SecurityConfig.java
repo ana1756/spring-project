@@ -1,5 +1,6 @@
 package com.ukma.springproject.config;
 
+import com.ukma.springproject.domain.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -18,10 +19,13 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
+                .regexMatchers("/profile").authenticated()
+                .regexMatchers("/applications").hasRole("ADMIN")
+                .regexMatchers("/applications/create").hasRole("DEV")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/sign-in.html")
+                .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/profile", true)
                 .failureUrl("/home")
