@@ -1,7 +1,5 @@
 package com.ukma.springproject.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.domain.Category;
 import com.ukma.springproject.domain.User;
@@ -12,18 +10,20 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.sql.Timestamp;
 
+@AutoConfigureWebTestClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = "spring.datasource.url=jdbc:h2:file:./test-file-h2.db")
+@TestPropertySource(properties = "spring.datasource.url=jdbc:h2:file:./test-file-h21.db")
 @TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=create-drop")
 @TestPropertySource(properties = "spring.main.allow-bean-definition-overriding=true")
 class ApplicationControllerTest {
@@ -62,74 +62,37 @@ class ApplicationControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
-    private ApplicationRepository applicationRepository;
+    private WebTestClient webTestClient;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    private final ObjectMapper jsonMapper = new ObjectMapper();
 
     @Test
-    void testInitialDataAndTestListingAllApplications() {
+    void testInitialDataAndTestListingAllApplicationsRestTemplate() {
+        System.out.println(restTemplate.getForObject("http://localhost:" + port + "/application/all", String.class));
         Assertions.assertThat(restTemplate.getForObject("http://localhost:" + port + "/application/all", String.class))
                 .contains("adminTestLocal@admin.com").doesNotContain("admin@admin.com");
     }
 
     @Test
-    void testCreateApplication() throws JsonProcessingException {
-        var user = userRepository.findByEmail("adminTestLocal@admin.com").orElseThrow();
-        Application application = new Application();
-        application.setName("NewName");
-        application.setPrice(2.433);
-        application.setDeveloper(user);
-        application.setDateCreated(new Timestamp(System.currentTimeMillis()));
-        application.setCategory(categoryRepository.findCategoryByName("ADMIN").orElseThrow());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request =
-                new HttpEntity<>(jsonMapper.writeValueAsString(application), headers);
-        Application application1 = restTemplate
-                .postForObject("http://localhost:" + port + "/application/create", request, Application.class);
-        Assertions.assertThat(application1).isNotNull();
-        Assertions.assertThat(restTemplate.getForObject("http://localhost:" + port + "/application/all", String.class))
-                .contains("NewName").contains("2.433");
+    void testInitialDataAndTestListingAllApplicationsWebTestClient() {
+        webTestClient.get()
+                .uri("/application/all")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectHeader()
+                .contentType("application/json")
+                .expectBody();
     }
 
     @Test
-    void testDeleteApplication() {
-        var user = userRepository.findByEmail("adminTestLocal@admin.com").orElseThrow();
-        Application application = applicationRepository.findApplicationByDeveloperId(user.getId()).get(0);
-        Assertions.assertThat(restTemplate.getForObject("http://localhost:" + port + "/application/all", String.class))
-                .contains(application.getId().toString());
-        Assertions.assertThat(restTemplate.getForObject("http://localhost:" + port + "/application/" + application.getId(), String.class))
-                .contains(user.getEmail()).contains(user.getId().toString());
-        restTemplate
-                .delete("http://localhost:" + port + "/application/" + application.getId());
-        Assertions.assertThat(restTemplate.getForObject("http://localhost:" + port + "/application/all", String.class))
-                .doesNotContain(application.getId().toString());
-    }
-
-    @Test
-    void testBadRequestPrice() throws JsonProcessingException {
-        var user = userRepository.findByEmail("adminTestLocal@admin.com").orElseThrow();
-        Application application = new Application();
-        application.setName("VeryNewName");
-        application.setPrice(-2.433);
-        application.setDeveloper(user);
-        application.setDateCreated(new Timestamp(System.currentTimeMillis()));
-        application.setCategory(categoryRepository.findCategoryByName("ADMIN").orElseThrow());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request =
-                new HttpEntity<>(jsonMapper.writeValueAsString(application), headers);
-        ResponseEntity<String> application1 = restTemplate
-                .postForEntity("http://localhost:" + port + "/application/create", request, String.class);
-
-        Assertions.assertThat(application1).isNotNull();
-        Assertions.assertThat(application1.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    void shouldReturnNotFoundForUnknownApplicationId() {
+        this.webTestClient
+                .get()
+                .uri("/application/{id}", Integer.MAX_VALUE)
+                .exchange()
+                .expectStatus()
+                .isEqualTo(404);
     }
 }
