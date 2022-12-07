@@ -3,8 +3,12 @@ package com.ukma.springproject.service.impl;
 import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.repositories.ApplicationRepository;
 import com.ukma.springproject.service.ApplicationService;
+import com.ukma.springproject.service.impl.exceptions.ApplicationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +40,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public Application findById(Long id) {
-        return repository.findById(id).get();
+        return repository.findById(id).orElseThrow(ApplicationNotFoundException::new);
     }
 
     @Override
@@ -49,5 +53,16 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<Application> findByDeveloper(Long id) {
         return repository.readAllByDeveloper_Id(id);
+    }
+
+
+    @Override
+    public List<Application> getAllApplications() {
+        return findAll();
+    }
+
+    @ExceptionHandler(ApplicationNotFoundException.class)
+    ResponseEntity<String> handleApplicationException(ApplicationNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
