@@ -25,18 +25,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(Long id, Product product) {
-        // TODO: 02.12.2022
-    }
-
-    @Override
     public void delete(Long id) {
         repository.delete(findById(id));
     }
 
     @Override
     public Product findById(Long id) {
-        System.out.println("ID = " + id);
         return repository.findById(id).get();
     }
 

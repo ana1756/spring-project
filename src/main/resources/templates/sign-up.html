@@ -37,8 +37,6 @@
                 <label>Password</label>
                 <input type="password" th:field="*{password}">
             </div>
-            <input type="hidden" th:field="*{role}" th:value="USER">
-            <input type="hidden" th:field="*{role}" th:value="${#calendars.format(#calendars.createNow(), 'yyyy.MMM.dd HH:mm')}" >
             <div>
                 <button class="transparent-button submit-button" type="submit">Sign up</button>
             </div>

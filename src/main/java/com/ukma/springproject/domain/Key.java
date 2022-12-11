@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "product_keys")
-public class Key implements Serializable {
+public class Key {
 
     @Id
     @GeneratedValue

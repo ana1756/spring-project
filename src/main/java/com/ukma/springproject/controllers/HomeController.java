@@ -12,7 +12,6 @@ public class HomeController {
 
     @GetMapping
     public String home(){
-       // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return "home";
     }
 }

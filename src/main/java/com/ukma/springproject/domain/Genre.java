@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name="genres")
-public class Genre implements Serializable {
+public class Genre  {
 
     @Id
     @Column(name = "genre_name")

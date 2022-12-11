@@ -25,11 +25,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void update(Long id, Application application) {
-        // TODO: 02.12.2022
-    }
-
-    @Override
     public void delete(Long id) {
         repository.delete(findById(id));
     }

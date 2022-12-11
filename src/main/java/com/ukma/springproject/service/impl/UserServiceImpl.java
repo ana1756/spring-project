@@ -18,22 +18,20 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository
-            , PasswordEncoder encoder
-    ) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
         this.encoder = encoder;
     }
 
     @Override
-    public void create(User user) {
+    public void save(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         repository.save(user);
     }
 
     @Override
-    public void update(Long id, User user) {
-        // TODO: 02.12.2022
+    public void update(User user) {
+        repository.save(user);
     }
 
     @Override
@@ -55,4 +53,6 @@ public class UserServiceImpl implements UserService {
     public List<User> findByRole(Role role) {
         return repository.readAllByRole(role);
     }
+
+
 }

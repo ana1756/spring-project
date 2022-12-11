@@ -18,7 +18,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "applications")
-public class Application implements Serializable  {
+public class Application  {
 
     @Id
     @GeneratedValue

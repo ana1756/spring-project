@@ -16,7 +16,7 @@
 <body class="body-container">
 <!-- HEADER -->
 <header th:insert="home :: header">
-</header >
+</header>
 <!-- HEADER -->
 
 <!-- MAIN -->
@@ -25,25 +25,12 @@
     <div class="profile-container">
         <!-- LEFT BAR -->
         <div class="profile-left-bar">
-            <div class="profile-image-container">
-                <img class="profile-image" th:src="@{/images/avatar.jpg}" width="200" height="200">
-            </div>
+
             <div class="profile-options-container">
                 <div>
-                    <a>Edit avatar</a>
+
                 </div>
-                <div>
-                    <a>Edit balance</a>
-                </div>
-                <div>
-                    <a>Edit password</a>
-                </div>
-                <div>
-                    <a>Add admin</a>
-                </div>
-                <div>
-                    <a>Add developer</a>
-                </div>
+
 
             </div>
 
@@ -54,28 +41,57 @@
 
         <!-- RIGHT BAR -->
         <div class="profile-right-bar">
-<!--            <div class="profile-balance-container">-->
-<!--                <span>BALANCE: 0.0$</span>-->
-<!--            </div>-->
-            <form>
+            <div class="profile-image-container">
+                <img class="profile-image" th:src="@{http://localhost:8080/getImage}"
+                     width="200" height="200">
+            </div>
+            <!--            <div class="profile-balance-container">-->
+            <!--                <span>BALANCE: 0.0$</span>-->
+            <!--            </div>-->
+            <form method="post" class="edit-form"
+                  th:action="@{/profile/update}" enctype="multipart/form-data" th:object="${user}">
+                <div class="form-file-field form-field">
+                    <label class="form-file-field-label" style="width: 400px; height: 35px;" for="imageInput">Select
+                        image...</label>
+                    <input type="file" accept="image/*" name="image" id="imageInput">
+                </div>
+
                 <div class="form-field">
-                    <input type="text" name="userName" >
+                    <input type="text" name="userName" th:field="*{username}" th:placeholder="${user.username}">
                 </div>
                 <div class="form-field">
-                    <input type="email" name="email" >
+                    <input type="email" name="email" th:field="*{email}" th:placeholder="${user.email}">
                 </div>
                 <div class="form-field">
-                    <input type="number" name="balance" >
+                    <input type="number" name="balance" th:field="*{balance}" th:placeholder="${user.balance}">
                 </div>
                 <div class="form-field">
                     <input type="password" name="password" placeholder="password">
                 </div>
 
-                <button class="transparent-button" type="submit">Edit</button>
+                <p>You will be redirected to a login page after editing your profile information</p>
+                <button class="transparent-button" type="submit" id="edit-button">Edit</button>
 
             </form>
+
+            <div class="profile-options-container">
+                <div sec:authorize="hasRole('ADMIN')" class="op-f">
+                    <form method="get" class="add-form" th:action="@{/admin/addAdmin}">
+                        <input type="text" name="email" placeholder="Enter email...">
+                        <button type="submit" class="add-btn">Add admin</button>
+                    </form>
+                </div>
+                <div sec:authorize="hasRole('ADMIN')" class="op-f">
+                    <form method="get" class="add-form" th:action="@{/admin/addDev}">
+                        <input type="text" name="email" placeholder="Enter email...">
+                        <button type="submit" class="add-btn">Add developer</button>
+                    </form>
+                </div>
+                <div>
+                </div>
+                <!-- RIGHT BAR -->
+            </div>
         </div>
-        <!-- RIGHT BAR -->
     </div>
 
 
@@ -86,6 +102,8 @@
 <footer th:insert="home :: footer">
 </footer>
 <!-- FOOTER -->
+
 </body>
+
 
 </html>

@@ -39,8 +39,6 @@ public class ApplicationController {
 
     @PostMapping("/create")
     String createApplication(@ModelAttribute("app") Application application, Errors errors) {
-//        if (errors.hasErrors()) ;
-        System.out.println(application.getName());
         applicationService.create(application);
         return "application";
     }

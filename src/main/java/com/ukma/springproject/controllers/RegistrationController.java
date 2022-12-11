@@ -32,7 +32,7 @@ public class RegistrationController {
     String processRegistration(@ModelAttribute("user") @Valid User user,
                                Errors errors) {
         if (errors.hasErrors()) return "sign-up";
-        userService.create(user);
+        userService.save(user);
         return "sign-in";
     }
 
@@ -40,7 +40,5 @@ public class RegistrationController {
     public User newUser(){
         return new User();
     }
-
-
 
 }

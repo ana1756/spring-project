@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Game Store</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/general.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+</head>
+
+<body class="body-container">
+<!-- HEADER -->
+<header th:insert="home :: header">
+</header >
+<!-- HEADER -->
+
+<!-- MAIN -->
+<main>
+    <!-- CENTER CARD -->
+    <div class="center-card">
+        <h2 class="t1">Oops!</h2>
+        <div class="text-container">
+            <p>
+                Error occurred.
+            </p>
+        </div>
+<!--        <a class="transparent-button btn" th:href="@{~/home}">Home</a>-->
+
+    </div>
+    <!-- CENTER CARD -->
+</main>
+<!-- MAIN -->
+
+
+
+<!-- FOOTER -->
+<footer th:insert="home :: footer">
+</footer>
+<!-- FOOTER -->
+</body>
+
+</html>

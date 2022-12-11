@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +20,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User {
 
     @Id
     @GeneratedValue
@@ -44,6 +45,9 @@ public class User implements Serializable {
 //    @Size(min = 8, max = 40)
     @Column(length = 100, nullable = false)
     private String password;
+
+    @Column(length = 500)
+    private String avatarName = "default-avatar.png";
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_created", nullable = false)
@@ -81,6 +85,7 @@ public class User implements Serializable {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }
 
 

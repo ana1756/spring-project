@@ -384,20 +384,10 @@ footer p {
     object-fit: cover;
     width: 184px;
     height: 184px;
+    margin-bottom: 20px;
 }
 
-.profile-options-container {
-    margin: 20px;
-}
 
-.profile-options-container a {
-    margin-top: 50px;
-}
-
-.profile-options-container a:hover {
-    cursor: pointer;
-    font-size: 17px;
-}
 
 .profile-right-bar {
     display: flex;
@@ -415,11 +405,11 @@ footer p {
     font-size: 28px;
 }
 
-.profile-right-bar button {
+.profile-right-bar .transparent-button {
     width: 410px;
 }
 
-.profile-right-bar button:hover {
+.profile-right-bar .transparent-button:hover {
     width: 410px;
 }
 
@@ -436,6 +426,12 @@ footer p {
     color: white;
     font-family: "Source Code Pro", serif;
     font-size: 18px;
+}
+
+.edit-form p {
+    font-family: Mulish, serif;
+    width: 400px;
+    text-align: center;
 }
 
 input[type=file] {
@@ -479,19 +475,6 @@ input[type=file] {
 color: white;
 }
 
-
-/*.description-container p {*/
-
-
-/*    !*overflow: hidden;*!*/
-/*    text-overflow: ellipsis;*/
-
-/*    !* Required for text-overflow to do anything *!*/
-/*    white-space: nowrap;*/
-/*    overflow: hidden;*/
-/*}*/
-
-
 .p-card-header a {
     cursor: pointer;
 }
@@ -501,3 +484,31 @@ color: white;
 }
 
 
+.profile-options-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-options-container .op-f {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-btn {
+    width: 100px;
+    height: 20px;
+    font-size: 12px;
+    padding: 4px;
+    margin-left: 6px;
+}
+
+
+.add-form {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}

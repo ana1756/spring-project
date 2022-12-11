@@ -19,7 +19,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "products")
-public class Product implements Serializable {
+public class Product  {
 
     @Id
     @GeneratedValue

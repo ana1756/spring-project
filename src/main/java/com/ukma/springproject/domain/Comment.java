@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "comments")
-public class Comment implements Serializable  {
+public class Comment  {
 
     @Id
     @GeneratedValue

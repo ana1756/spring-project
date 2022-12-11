@@ -19,8 +19,8 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .regexMatchers("/profile").authenticated()
-                .regexMatchers("/applications").hasRole("ADMIN")
+                .regexMatchers("/profile", "/getImage", "/profile/*").authenticated()
+                .regexMatchers("/applications", "/admin/*").hasRole("ADMIN")
                 .regexMatchers("/applications/create").hasRole("DEV")
                 .anyRequest().permitAll()
                 .and()
@@ -35,16 +35,6 @@ public class SecurityConfig implements WebMvcConfigurer {
 
         return http.build();
     }
-
-    @Bean
-    public RoleHierarchy roleHierarchy() {
-        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        String hierarchy = "ROLE_ADMIN > ROLE_STAFF \n ROLE_STAFF > ROLE_USER";
-        roleHierarchy.setHierarchy(hierarchy);
-        return roleHierarchy;
-    }
-
-
 
     @Bean
     public PasswordEncoder encoder() {

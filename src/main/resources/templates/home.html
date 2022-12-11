@@ -31,7 +31,7 @@
             <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{~/registration}">Sign up</a></li>
         </ul>
         <form sec:authorize="isAuthenticated()" method="POST" th:action="@{/logout}">
-            <input class="nav-item btn" type="submit"  th:href="@{~/logout}" style="border: none; width: 120px; background-color: rgba(101,136,95,0); color: white; cursor: pointer" value="Sign out"/>
+            <input class="nav-item btn" type="submit"  style="border: none; width: 120px; background-color: rgba(101,136,95,0); color: white; cursor: pointer" value="Sign out"/>
         </form>
     </nav>
     <!-- NAVIGATION -->
