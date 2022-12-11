@@ -10,5 +10,6 @@ public interface ApplicationService {
     Application findById(Long id);
     List<Application> findAll();
     List<Application> findByDeveloper(Long id);
+    List<Application> getAllApplications();
 
 }

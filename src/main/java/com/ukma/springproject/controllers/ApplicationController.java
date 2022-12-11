@@ -3,14 +3,16 @@ package com.ukma.springproject.controllers;
 import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.service.ApplicationService;
 import com.ukma.springproject.service.GenreService;
+import com.ukma.springproject.service.impl.exceptions.ApplicationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/applications")
@@ -26,10 +28,20 @@ public class ApplicationController {
         this.genreService = genreService;
     }
 
-    @GetMapping("/create")
+    @GetMapping("create")
     String showApplicationForm(Model model) {
         model.addAttribute("genres", genreService.findAll());
         return "application";
+    }
+
+    @GetMapping("all")
+    List<Application> getAllApps() {
+        return applicationService.getAllApplications();
+    }
+
+    @GetMapping("{id}")
+    Application getAppById(@PathVariable Long id) {
+        return applicationService.findById(id);
     }
 
     @GetMapping()
@@ -37,7 +49,7 @@ public class ApplicationController {
         return "applications";
     }
 
-    @PostMapping("/create")
+    @PostMapping("create")
     String createApplication(@ModelAttribute("app") Application application, Errors errors) {
         applicationService.create(application);
         return "application";
@@ -46,5 +58,10 @@ public class ApplicationController {
     @ModelAttribute(value = "app")
     public Application newApplication() {
         return new Application();
+    }
+
+    @ExceptionHandler(ApplicationNotFoundException.class)
+    ResponseEntity<String> handleApplicationException(ApplicationNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
