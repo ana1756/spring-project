@@ -24,65 +24,6 @@ class SecurityTests {
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"})
-    void adminsAccessTest() throws Exception {
-
-        mockMvc.perform(get("/profile"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("profile"));
-
-        mockMvc.perform(get("/applications"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("applications"));
-
-        mockMvc.perform(get("/products"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("products"));
-
-        mockMvc.perform(get("/applications/create"))
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    @WithMockUser(username = "user")
-    void usersAccessTest() throws Exception {
-
-        mockMvc.perform(get("/profile"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("profile"));
-
-        mockMvc.perform(get("/applications"))
-                .andExpect(status().is4xxClientError());
-
-        mockMvc.perform(get("/products"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("products"));
-
-        mockMvc.perform(get("/applications/create"))
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    @WithMockUser(username = "dev", authorities = {"ROLE_DEV"})
-    void devsAccessTest() throws Exception {
-
-        mockMvc.perform(get("/profile"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("profile"));
-
-        mockMvc.perform(get("/applications"))
-                .andExpect(status().is4xxClientError());
-
-        mockMvc.perform(get("/products"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("products"));
-
-        mockMvc.perform(get("/applications/create"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("application"));
-    }
-
-    @Test
     @WithAnonymousUser
     void anonAccessTest() throws Exception {
 
