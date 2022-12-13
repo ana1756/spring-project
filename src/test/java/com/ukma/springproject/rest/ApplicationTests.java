@@ -7,16 +7,13 @@ import com.ukma.springproject.domain.User;
 import com.ukma.springproject.repositories.ApplicationRepository;
 import com.ukma.springproject.repositories.CategoryRepository;
 import com.ukma.springproject.repositories.UserRepository;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -29,31 +26,28 @@ import java.sql.Timestamp;
 @TestPropertySource(properties = "spring.main.allow-bean-definition-overriding=true")
 class ApplicationTests {
 
-    @TestConfiguration
-    static class LoadDatabase {
-
-        @Bean
-        CommandLineRunner initDatabase(UserRepository userRepository, ApplicationRepository applicationRepository, CategoryRepository categoryRepository) {
-
-            return args -> {
-                User user1 = new User();
-                user1.setEmail("adminTestLocal@admin.com");
-                user1.setRole(Role.ROLE_ADMIN);
-                user1.setUsername("admin");
-                user1.setPassword("admin");
-                user1 = userRepository.save(user1);
-                Application application = new Application();
-                application.setName("Name");
-                application.setImage("image");
-                application.setDescription("desc");
-                application.setPrice(1.21);
-                application.setDeveloper(user1);
-                application.setDateCreated(new Timestamp(System.currentTimeMillis()));
-                Category category = new Category();
-                category.setName("ADMIN");
-                applicationRepository.save(application);
-            };
-        }
+    @BeforeEach
+    void initDatabase(@Autowired UserRepository userRepository, @Autowired ApplicationRepository applicationRepository,
+                      @Autowired CategoryRepository categoryRepository) {
+        applicationRepository.deleteAll();
+        userRepository.deleteAll();
+        categoryRepository.deleteAll();
+        User user1 = new User();
+        user1.setEmail("adminTestLocal@admin.com");
+        user1.setRole(Role.ROLE_ADMIN);
+        user1.setUsername("admin");
+        user1.setPassword("admin");
+        user1 = userRepository.save(user1);
+        Application application = new Application();
+        application.setName("Name");
+        application.setImage("image");
+        application.setDescription("desc");
+        application.setPrice(1.21);
+        application.setDeveloper(user1);
+        application.setDateCreated(new Timestamp(System.currentTimeMillis()));
+        Category category = new Category();
+        category.setName("ADMIN");
+        applicationRepository.save(application);
     }
 
     @LocalServerPort

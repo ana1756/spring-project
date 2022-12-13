@@ -1,10 +1,7 @@
 package com.ukma.springproject.config;
 
-import com.ukma.springproject.domain.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,13 +12,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig implements WebMvcConfigurer {
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .regexMatchers("/profile", "/getImage", "/profile/*").authenticated()
-                .regexMatchers("/applications", "/admin/*").hasRole("ADMIN")
-                .regexMatchers("/applications/create").hasRole("DEV")
+                .regexMatchers("/applications*", "/admin/*").hasAuthority("ROLE_ADMIN")
+                .regexMatchers("/applications/create*").hasAuthority("ROLE_DEV")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
