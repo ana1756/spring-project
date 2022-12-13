@@ -1,5 +1,7 @@
 package com.ukma.springproject.service.impl;
 
+import com.ukma.springproject.aspects.LogExecutionTime;
+import com.ukma.springproject.aspects.LogParameters;
 import com.ukma.springproject.domain.Role;
 import com.ukma.springproject.domain.User;
 import com.ukma.springproject.repositories.UserRepository;
@@ -24,6 +26,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @LogExecutionTime
+    @LogParameters
     public void save(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         repository.save(user);
