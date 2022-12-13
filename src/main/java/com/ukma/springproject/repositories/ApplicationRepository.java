@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface ApplicationRepository extends CrudRepository<Application, Long> {
-    List<Application> readAllByDeveloper_Id(Long id);
+    List<Application> readAllByDeveloperId(Long id);
 }

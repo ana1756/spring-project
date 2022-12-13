@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,18 +19,18 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue
     @Column(name = "user_id")
     private Long id;
 
-//    @Size(min = 3, max = 40)
+    //    @Size(min = 3, max = 40)
     @Column(length = 40, nullable = false, unique = true)
     private String username;
 
-//    @Size(min = 3, max = 100)
+    //    @Size(min = 3, max = 100)
     @Column(length = 100, nullable = false, unique = true)
     private String email;
 
@@ -42,7 +41,7 @@ public class User {
     @Column(nullable = false)
     private Double balance = 0.0;
 
-//    @Size(min = 8, max = 40)
+    //    @Size(min = 8, max = 40)
     @Column(length = 100, nullable = false)
     private String password;
 
@@ -56,22 +55,22 @@ public class User {
     @OneToMany(mappedBy = "developer")
     @JsonIgnore
     @ToString.Exclude
-    private List<Application> applications;
+    private transient List<Application> applications;
 
     @OneToMany(mappedBy = "admin")
     @JsonIgnore
     @ToString.Exclude
-    private List<Product> products;
+    private transient List<Product> products;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     @ToString.Exclude
-    private List<Comment> comments;
+    private transient List<Comment> comments;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     @ToString.Exclude
-    private List<Key> keys;
+    private transient List<Key> keys;
 
     @Override
     public boolean equals(Object o) {

@@ -3,7 +3,7 @@ package com.ukma.springproject.service.impl;
 import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.repositories.ApplicationRepository;
 import com.ukma.springproject.service.ApplicationService;
-import com.ukma.springproject.service.impl.exceptions.ApplicationNotFoundException;
+import com.ukma.springproject.exceptions.ApplicationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public Application findById(Long id) {
-        return repository.findById(id).orElseThrow(ApplicationNotFoundException::new);
+        return repository.findById(id).orElseThrow(()
+                -> new ApplicationNotFoundException("Application by requested id does not exist"));
     }
 
     @Override
@@ -47,7 +48,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<Application> findByDeveloper(Long id) {
-        return repository.readAllByDeveloper_Id(id);
+        return repository.readAllByDeveloperId(id);
     }
 
 

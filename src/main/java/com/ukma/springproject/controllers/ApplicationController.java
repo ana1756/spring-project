@@ -3,7 +3,7 @@ package com.ukma.springproject.controllers;
 import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.service.ApplicationService;
 import com.ukma.springproject.service.GenreService;
-import com.ukma.springproject.service.impl.exceptions.ApplicationNotFoundException;
+import com.ukma.springproject.exceptions.ApplicationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
