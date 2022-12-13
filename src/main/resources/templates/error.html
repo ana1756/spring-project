@@ -23,10 +23,13 @@
 <main>
     <!-- CENTER CARD -->
     <div class="center-card">
-        <h2 class="t1">Oops!</h2>
+        <h2 class="t1">Oops! An error!</h2>
         <div class="text-container">
-            <p>
-                Error occurred.
+            <p th:text="${message}">
+
+            </p>
+            <p th:text="${status}">
+
             </p>
         </div>
 <!--        <a class="transparent-button btn" th:href="@{~/home}">Home</a>-->

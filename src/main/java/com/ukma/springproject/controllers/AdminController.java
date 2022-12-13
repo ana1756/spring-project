@@ -18,20 +18,20 @@ public class AdminController {
     }
 
     @GetMapping("/addAdmin")
-    public String addNewAdmin(@RequestParam(name = "email") String email){
+    public String addNewAdmin(@RequestParam(name = "email") String email) {
         User user = userService.findByEmail(email);
         if (user == null)
-            throw new UserNotFoundException(email);
+            throw new UserNotFoundException("User by email " + email + " Was not found!");
         user.setRole(Role.ROLE_ADMIN);
         userService.update(user);
-        return  "redirect:/profile";
+        return "redirect:/profile";
     }
 
     @GetMapping("/addDev")
-    public String addNewDev(@RequestParam(name = "email") String email){
+    public String addNewDev(@RequestParam(name = "email") String email) {
         User user = userService.findByEmail(email);
         if (user == null)
-            throw new UserNotFoundException(email);
+            throw new UserNotFoundException("User by email " + email + " Was not found!");
         user.setRole(Role.ROLE_DEV);
         userService.update(user);
         return "redirect:/profile";
