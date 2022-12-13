@@ -11,6 +11,7 @@ import com.ukma.springproject.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,10 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ProductsController.class)
-public class ProductsControllerTests {
+class ProductsControllerTests {
 
     @Autowired
     private MockMvc mvc;
+
+    @MockBean
+    private CommandLineRunner initDatabase;
 
     @MockBean
     private ProductService productService;
