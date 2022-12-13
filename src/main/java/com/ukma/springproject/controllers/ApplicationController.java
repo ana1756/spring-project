@@ -1,9 +1,11 @@
 package com.ukma.springproject.controllers;
 
 import com.ukma.springproject.domain.Application;
+import com.ukma.springproject.domain.dto.ApplicationDTO;
 import com.ukma.springproject.service.ApplicationService;
 import com.ukma.springproject.service.GenreService;
 import com.ukma.springproject.exceptions.ApplicationNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/applications")
@@ -34,23 +34,13 @@ public class ApplicationController {
         return "application";
     }
 
-    @GetMapping("all")
-    List<Application> getAllApps() {
-        return applicationService.getAllApplications();
-    }
-
-    @GetMapping("{id}")
-    Application getAppById(@PathVariable Long id) {
-        return applicationService.findById(id);
-    }
-
     @GetMapping()
     String showApplications() {
         return "applications";
     }
 
     @PostMapping("create")
-    String createApplication(@ModelAttribute("app") Application application, Errors errors) {
+    String createApplication(@ModelAttribute("app") ApplicationDTO application, Errors errors) {
         applicationService.create(application);
         return "application";
     }

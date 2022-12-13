@@ -22,8 +22,12 @@ public class UserDTO {
 
     private Double balance = 0.0;
 
+    @JsonIgnore
+    @ToString.Exclude
     private String password;
 
+    @JsonIgnore
+    @ToString.Exclude
     private String avatarName = "default-avatar.png";
 
     private Date dateCreated = new Date();

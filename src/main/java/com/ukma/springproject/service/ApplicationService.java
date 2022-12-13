@@ -1,15 +1,17 @@
 package com.ukma.springproject.service;
 
 import com.ukma.springproject.domain.Application;
+import com.ukma.springproject.domain.dto.ApplicationDTO;
+
 import java.util.List;
 
 public interface ApplicationService {
 
-    void create(Application application);
+    void create(ApplicationDTO application);
     void delete(Long id);
-    Application findById(Long id);
-    List<Application> findAll();
-    List<Application> findByDeveloper(Long id);
-    List<Application> getAllApplications();
+    ApplicationDTO findById(Long id);
+    List<ApplicationDTO> findAll();
+    List<ApplicationDTO> findByDeveloper(Long id);
+    List<ApplicationDTO> getAllApplications();
 
 }

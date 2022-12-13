@@ -7,6 +7,7 @@ import com.ukma.springproject.domain.User;
 import com.ukma.springproject.repositories.ApplicationRepository;
 import com.ukma.springproject.repositories.CategoryRepository;
 import com.ukma.springproject.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,11 @@ import java.sql.Timestamp;
 
 @SpringBootApplication
 public class SpringProjectApplication {
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepository, ApplicationRepository applicationRepository,
@@ -40,6 +46,7 @@ public class SpringProjectApplication {
             applicationRepository.deleteAllByDeveloperEmail(user1.getEmail());
             userRepository.deleteByEmail(user1.getEmail());
             userRepository.save(user1);
+            applicationRepository.save(application);
             categoryRepository.delete(category);
             categoryRepository.save(category);
         };
