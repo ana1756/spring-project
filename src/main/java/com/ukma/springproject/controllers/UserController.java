@@ -1,6 +1,7 @@
 package com.ukma.springproject.controllers;
 
 import com.ukma.springproject.domain.User;
+import com.ukma.springproject.domain.dto.UserDTO;
 import com.ukma.springproject.service.UserService;
 import com.ukma.springproject.service.impl.DBUserDetailsService;
 import com.ukma.springproject.utils.FileUtil;
@@ -11,14 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 
-import javax.validation.Valid;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Controller
 @RequestMapping("/profile")
@@ -44,18 +39,18 @@ public class UserController {
     }
 
     @ModelAttribute(value = "user")
-    public User newUser() {
-        return new User();
+    public UserDTO newUser() {
+        return new UserDTO();
     }
 
     @PostMapping("/update")
-    public String saveUser(@ModelAttribute("user") User user, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+    public String saveUser(@ModelAttribute("user") UserDTO user, @RequestParam("image") MultipartFile multipartFile) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userDetailsService.loadUserByUsername(auth.getName()).getUser();
         User storedUser = userService.findById(currentUser.getId());
 
         if (!multipartFile.isEmpty()) {
-            String fileName = manageFileUpload(storedUser, multipartFile);
+            String fileName = manageFileUpload(user, multipartFile);
             storedUser.setAvatarName(fileName);
         }
 
@@ -75,7 +70,7 @@ public class UserController {
         return "redirect:/profile";
     }
 
-    private String manageFileUpload(User user, MultipartFile multipartFile) throws IOException {
+    private String manageFileUpload(UserDTO user, MultipartFile multipartFile) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         user.setAvatarName(fileName);
         String uploadDir = "target/classes/data/avatars/" + user.getId();
