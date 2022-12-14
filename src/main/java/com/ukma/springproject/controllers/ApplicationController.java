@@ -1,6 +1,7 @@
 package com.ukma.springproject.controllers;
 
 import com.ukma.springproject.domain.Application;
+import com.ukma.springproject.domain.Category;
 import com.ukma.springproject.domain.User;
 import com.ukma.springproject.exceptions.ApplicationNotFoundException;
 import com.ukma.springproject.service.ApplicationService;
@@ -57,12 +58,14 @@ public class ApplicationController {
     }
 
     @PostMapping("/publish")
-    String publishApplication(@RequestParam(name = "applicationId") Long id) {
+    String publishApplication(@RequestParam(name = "applicationId") Long id,
+                              @RequestParam (name = "category") String category) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userDetailsService.loadUserByUsername(auth.getName()).getUser();
         Application app = applicationService.findById(id);
-        productService.createFromApplication(app, user, categoryService.find("PAID"));
-        return "applications";
+        Category cat = categoryService.find(category);
+        productService.createFromApplication(app, user, cat);
+        return "redirect:/applications";
     }
 
 
@@ -88,6 +91,7 @@ public class ApplicationController {
     @GetMapping()
     String showApplications(Model model) {
         model.addAttribute("applications", applicationService.findAllByPublished(false));
+        model.addAttribute("catrgories", categoryService.findAll());
         return "applications";
     }
 
