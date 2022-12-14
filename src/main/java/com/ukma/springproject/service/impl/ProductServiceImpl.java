@@ -30,12 +30,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void createFromApplication(Application application, User admin, Category category) {
-        Product product = new Product();
-        product.setApplication(application);
-        product.setDateCreated(new Date());
-        product.setAdmin(admin);
-        product.setCategory(category);
-        create(product);
+        if (application.getProduct() == null) {
+            Product product = new Product();
+            product.setApplication(application);
+            product.setDateCreated(new Date());
+            product.setAdmin(admin);
+            product.setCategory(category);
+            create(product);
+        }
     }
 
     @Override

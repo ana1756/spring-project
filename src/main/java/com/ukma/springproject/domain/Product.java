@@ -30,7 +30,7 @@ public class Product  {
     @Column(name = "date_created", nullable = false)
     private Date dateCreated;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "application_id", referencedColumnName = "application_id")
     private Application application;
 

@@ -18,7 +18,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "applications")
-public class Application  {
+public class Application {
 
     @Id
     @GeneratedValue
@@ -57,7 +57,7 @@ public class Application  {
     @ToString.Exclude
     private List<Genre> genres;
 
-    @OneToOne(mappedBy = "application")
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Product product;
 

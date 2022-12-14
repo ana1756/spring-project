@@ -8,6 +8,7 @@ import com.ukma.springproject.domain.Product;
 import com.ukma.springproject.service.CategoryService;
 import com.ukma.springproject.service.GenreService;
 import com.ukma.springproject.service.ProductService;
+import com.ukma.springproject.service.impl.DBUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ class ProductsControllerTests {
 
     @MockBean
     private CommandLineRunner initDatabase;
+
+    @MockBean
+    private DBUserDetailsService service;
 
     @MockBean
     private ProductService productService;
