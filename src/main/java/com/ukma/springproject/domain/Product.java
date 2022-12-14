@@ -28,7 +28,7 @@ public class Product  {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_created", nullable = false)
-    private Date dateCreated;
+    private Date dateCreated = new Date();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "application_id", referencedColumnName = "application_id")
