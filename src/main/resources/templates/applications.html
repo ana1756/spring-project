@@ -54,8 +54,11 @@
                     <a th:text="${app.name}"  class="p-card-title"></a>
 
                     <div sec:authorize="hasRole('ADMIN')">
-                        <form method="POST" th:action="@{/applications/publish}">
+                        <form class="publish-form" method="POST" th:action="@{/applications/publish}">
                             <input hidden name="applicationId" type="number" th:value="${app.id}">
+                            <select class="categories-container" th:name="category">
+                                <option th:each="category: ${catrgories}" th:text="${category.name}" th:value="${category.name}"></option>
+                            </select>
                             <button type="submit" class="transparent-button">PUBLISH</button>
                         </form>
                     </div>
