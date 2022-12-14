@@ -2,6 +2,7 @@ package com.ukma.springproject.service.impl;
 
 import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.domain.User;
+import com.ukma.springproject.exceptions.BadRequestException;
 import com.ukma.springproject.repositories.ApplicationRepository;
 import com.ukma.springproject.service.ApplicationService;
 import com.ukma.springproject.exceptions.ApplicationNotFoundException;
@@ -34,6 +35,12 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void create(Application application, User developer) {
         application.setDateCreated(new Date());
         application.setDeveloper(developer);
+        if (application.getName() == null || application.getImage() == null ||
+                application.getDescription() == null || application.getPrice() == null
+                || (application.getPrice() < 0))
+            throw new BadRequestException(
+                    "One of the sent fields contained illegal value or was not filled! It is not allowed!"
+            );
         repository.save(application);
     }
 
