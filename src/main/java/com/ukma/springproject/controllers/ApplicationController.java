@@ -59,7 +59,7 @@ public class ApplicationController {
 
     @PostMapping("/publish")
     String publishApplication(@RequestParam(name = "applicationId") Long id,
-                              @RequestParam (name = "category") String category) {
+                              @RequestParam(name = "category") String category) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userDetailsService.loadUserByUsername(auth.getName()).getUser();
         Application app = applicationService.findById(id);

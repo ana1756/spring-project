@@ -51,13 +51,13 @@ public class SpringProjectApplication {
 //            application.setDateCreated(new Timestamp(System.currentTimeMillis()));
 
             Category free = new Category();
-            free.setName("FREE");
+            free.setName("RELEASE");
 
             Category demo = new Category();
             demo.setName("DEMO");
 
             Category paid = new Category();
-            paid.setName("PAID");
+            paid.setName("BETA ACCESS");
 
 
             Genre action = new Genre();
