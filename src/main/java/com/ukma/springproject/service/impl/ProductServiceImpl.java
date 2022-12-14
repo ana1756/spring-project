@@ -4,6 +4,7 @@ import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.domain.Category;
 import com.ukma.springproject.domain.Product;
 import com.ukma.springproject.domain.User;
+import com.ukma.springproject.exceptions.EntityNotFoundException;
 import com.ukma.springproject.repositories.ProductRepository;
 import com.ukma.springproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepository repository;
+    private final ProductRepository repository;
 
     @Autowired
     public ProductServiceImpl(ProductRepository repository) {
@@ -36,6 +37,7 @@ public class ProductServiceImpl implements ProductService {
             product.setDateCreated(new Date());
             product.setAdmin(admin);
             product.setCategory(category);
+            application.setPublished(true);
             create(product);
         }
     }
@@ -47,7 +49,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(Long id) {
-        return repository.findById(id).get();
+        return repository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Product by given id could not be found"));
     }
 
     @Override
