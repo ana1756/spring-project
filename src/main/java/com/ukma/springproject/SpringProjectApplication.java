@@ -11,10 +11,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @SpringBootApplication
 public class SpringProjectApplication {
+
+    @Bean
+    Set<String> allowedSortingMethods() {
+        var allowed = new HashSet<String>();
+        allowed.add("lowPrice");
+        allowed.add("highPrice");
+        allowed.add("aToz");
+        allowed.add("zToa");
+        allowed.add("oldToNew");
+        allowed.add("newToOld");
+        return allowed;
+    }
 
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepository,

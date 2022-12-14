@@ -11,10 +11,7 @@ import com.ukma.springproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,9 +19,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
 
+    private final Set<String> allowed;
+
     @Autowired
-    public ProductServiceImpl(ProductRepository repository) {
+    public ProductServiceImpl(ProductRepository repository, Set<String> allowed) {
         this.repository = repository;
+        this.allowed = allowed;
     }
 
     @Override
@@ -70,13 +70,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllSortedAndFiltered(String category, String genre, String sorting) {
-        var allowed = new HashSet<>();
-        allowed.add("lowPrice");
-        allowed.add("highPrice");
-        allowed.add("aToz");
-        allowed.add("zToa");
-        allowed.add("oldToNew");
-        allowed.add("newToOld");
         if (!allowed.contains(sorting))
             throw new BadRequestException("Invalid sorting method");
         return repository.readAllByCategory_Name(category)

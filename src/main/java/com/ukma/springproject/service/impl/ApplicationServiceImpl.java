@@ -12,18 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
     private final ApplicationRepository repository;
 
+    private final Set<String> allowed;
+
     @Autowired
-    public ApplicationServiceImpl(ApplicationRepository repository) {
+    public ApplicationServiceImpl(ApplicationRepository repository, Set<String> allowed) {
         this.repository = repository;
+        this.allowed = allowed;
     }
 
     @Override
@@ -67,10 +69,59 @@ public class ApplicationServiceImpl implements ApplicationService {
         return repository.readAllByDeveloperId(id);
     }
 
+    @Override
+    public List<Application> findByDeveloperSortedAndFiltered(Long id, String genre, String sorting) {
+        if (!allowed.contains(sorting))
+            throw new BadRequestException("Invalid sorting method");
+        return repository.readAllByDeveloperId(id)
+                .stream().filter(x ->
+                        x.getGenres().stream().anyMatch(y -> y.getName().equals(genre)))
+                .sorted((o1, o2) -> compareApps(o1, o2, sorting))
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public List<Application> getAllApplications() {
         return findAll();
+    }
+
+    @Override
+    public List<Application> getAllSortedAndFiltered(String genre, String sorting) {
+        if (!allowed.contains(sorting))
+            throw new BadRequestException("Invalid sorting method");
+        return repository.readAllByPublished(false)
+                .stream().filter(x ->
+                        x.getGenres().stream().anyMatch(y -> y.getName().equals(genre)))
+                .sorted((o1, o2) -> compareApps(o1, o2, sorting))
+                .collect(Collectors.toList());
+    }
+
+    private static int compareApps(Application o1, Application o2, String sorting) {
+        var compResult = 0;
+        switch (sorting) {
+            case "lowPrice":
+                compResult = Double.compare(o1.getPrice(), o2.getPrice());
+                break;
+            case "highPrice":
+                compResult = Double.compare(o2.getPrice(), o1.getPrice());
+                break;
+            case "aToz":
+                compResult = o1.getName().compareTo(o2.getName());
+                break;
+            case "zToa":
+                compResult = o2.getName().compareTo(o1.getName());
+                break;
+            case "oldToNew":
+                compResult = o1.getDateCreated().compareTo(o2.getDateCreated());
+                break;
+            case "newToOld":
+                compResult = o2.getDateCreated().compareTo(o1.getDateCreated());
+                break;
+            default:
+                throw new BadRequestException("Unexpected value: " + sorting);
+        }
+        return compResult;
     }
 
     @ExceptionHandler(ApplicationNotFoundException.class)

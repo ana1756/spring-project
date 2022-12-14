@@ -66,7 +66,6 @@ public class ProductsController {
                     @RequestParam String category,
                     @RequestParam String genre,
                     @RequestParam String sorting) {
-        System.out.println("Request with params sent");
         model.addAttribute("products", productService.getAllSortedAndFiltered(category, genre, sorting));
         model.addAttribute("genres", genreService.findAll());
         model.addAttribute("categories", categoryService.findAll());

@@ -14,36 +14,71 @@
 <body class="body-container">
 <!-- HEADER -->
 <header th:insert="home :: header">
-</header >
+</header>
 <!-- HEADER -->
 
 <!-- MAIN -->
 <main>
     <div class="products-container">
-        <div class="products-bar">
-            <div class="filters-container">
-                <select>
-                    <option>select</option>
-                    <option>select</option>
-                    <option>select</option>
-                </select>
-                <select>
-                    <option>select</option>
-                    <option>select</option>
-                    <option>select</option>
-                </select>
-            </div>
+        <form method="get" sec:authorize="hasRole('ADMIN')" th:action="@{/applications}">
+            <div class="products-bar">
+                <div class="filters-container">
+                    <select name="genre">
+                        <option value="" style="display:none">genre</option>
+                        <option th:each="gen : ${genres}" th:value="${gen.name}" th:text="${gen.name}"></option>
+                    </select>
+                    <select name="sorting">
+                        <option value="" style="display:none">sorting</option>
+                        <option value="lowPrice">price: low to high</option>
+                        <option value="highPrice">price: high to low</option>
+                        <option value="aToz">name: a to z</option>
+                        <option value="zToa">name: z to a</option>
+                        <option value="oldToNew">date: old to new</option>
+                        <option value="newToOld">date: new to old</option>
 
-            <div class="sorting-container">
-                <div class="categories-container">
-                    <select>
-                        <option>select</option>
-                        <option>select</option>
-                        <option>select</option>
                     </select>
                 </div>
+
+                <!--                <div class="sorting-container">-->
+                <!--                    <div class="categories-container">-->
+
+                <!--                    </div>-->
+                <!--                </div>-->
+                <div class="search-button-container">
+                    <button class="transparent-button" id="filterButton" type="submit">Search</button>
+                </div>
             </div>
-        </div>
+        </form>
+
+        <form method="get" sec:authorize="hasRole('DEV')" th:action="@{/applications/my}">
+            <div class="products-bar">
+                <div class="filters-container">
+                    <select name="genre">
+                        <option value="" style="display:none">genre</option>
+                        <option th:each="gen : ${genres}" th:value="${gen.name}" th:text="${gen.name}"></option>
+                    </select>
+                    <select name="sorting">
+                        <option value="" style="display:none">sorting</option>
+                        <option value="lowPrice">price: low to high</option>
+                        <option value="highPrice">price: high to low</option>
+                        <option value="aToz">name: a to z</option>
+                        <option value="zToa">name: z to a</option>
+                        <option value="oldToNew">date: old to new</option>
+                        <option value="newToOld">date: new to old</option>
+
+                    </select>
+                </div>
+
+                <!--                <div class="sorting-container">-->
+                <!--                    <div class="categories-container">-->
+
+                <!--                    </div>-->
+                <!--                </div>-->
+                <div class="search-button-container">
+                    <button class="transparent-button" id="filterButton" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
 
         <div th:each="app: ${applications}" class="product-card-container">
             <div class="product-image-container">
@@ -51,13 +86,14 @@
             </div>
             <div class="product-info-container">
                 <div class="p-card-header">
-                    <a th:text="${app.name}"  class="p-card-title"></a>
+                    <a th:text="${app.name}" class="p-card-title"></a>
 
                     <div sec:authorize="hasRole('ADMIN')">
                         <form class="publish-form" method="POST" th:action="@{/applications/publish}">
                             <input hidden name="applicationId" type="number" th:value="${app.id}">
                             <select class="categories-container" th:name="category">
-                                <option th:each="category: ${catrgories}" th:text="${category.name}" th:value="${category.name}"></option>
+                                <option th:each="category: ${catrgories}" th:text="${category.name}"
+                                        th:value="${category.name}"></option>
                             </select>
                             <button type="submit" class="transparent-button">PUBLISH</button>
                         </form>
@@ -80,9 +116,7 @@
             </div>
 
 
-
-
-    </div>
+        </div>
     </div>
 </main>
 <!-- MAIN -->

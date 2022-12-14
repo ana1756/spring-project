@@ -75,13 +75,21 @@ public class ApplicationController {
         User dev = userDetailsService.loadUserByUsername(auth.getName()).getUser();
         List<Application> apps = applicationService.findByDeveloper(dev.getId());
         model.addAttribute("applications", apps);
+        model.addAttribute("genres", genreService.findAll());
         return "applications";
     }
 
-//    @GetMapping("all")
-//    List<Application> getAllApps() {
-//        return applicationService.getAllApplications();
-//    }
+    @GetMapping(value = "/my", params = {"genre", "sorting"})
+    String showDevApplications(Model model,
+                               @RequestParam String genre,
+                               @RequestParam String sorting) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User dev = userDetailsService.loadUserByUsername(auth.getName()).getUser();
+        List<Application> apps = applicationService.findByDeveloperSortedAndFiltered(dev.getId(), genre, sorting);
+        model.addAttribute("applications", apps);
+        model.addAttribute("genres", genreService.findAll());
+        return "applications";
+    }
 
     @GetMapping("{id}")
     Application getAppById(@PathVariable Long id) {
@@ -92,9 +100,19 @@ public class ApplicationController {
     String showApplications(Model model) {
         model.addAttribute("applications", applicationService.findAllByPublished(false));
         model.addAttribute("catrgories", categoryService.findAll());
+        model.addAttribute("genres", genreService.findAll());
         return "applications";
     }
 
+    @GetMapping(params = {"genre", "sorting"})
+    String showApplications(Model model,
+                            @RequestParam String genre,
+                            @RequestParam String sorting) {
+        model.addAttribute("applications", applicationService.getAllSortedAndFiltered(genre, sorting));
+        model.addAttribute("genres", genreService.findAll());
+        model.addAttribute("catrgories", categoryService.findAll());
+        return "applications";
+    }
 
     @ModelAttribute(value = "app")
     public Application newApplication() {
