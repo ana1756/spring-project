@@ -32,12 +32,12 @@ public class RegistrationController {
     String processRegistration(@ModelAttribute("user") @Valid User user,
                                Errors errors) {
         if (errors.hasErrors()) return "sign-up";
-        userService.save(user);
+        userService.register(user);
         return "sign-in";
     }
 
     @ModelAttribute(value = "user")
-    public User newUser(){
+    public User newUser() {
         return new User();
     }
 

@@ -13,6 +13,8 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
     User readByEmail(String email);
 
+    User readByUsername(String username);
+
     List<User> readAllByRole(Role role);
 
     void deleteByEmail(String email);

@@ -2,6 +2,7 @@ package com.ukma.springproject.service.impl;
 
 import com.ukma.springproject.domain.Role;
 import com.ukma.springproject.domain.User;
+import com.ukma.springproject.exceptions.BadRequestException;
 import com.ukma.springproject.repositories.UserRepository;
 import com.ukma.springproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
+        repository.save(user);
+    }
+
+    @Override
+    public void register(User user) {
+        User byUserName = repository.readByUsername(user.getUsername());
+        User byEmail = repository.readByEmail(user.getEmail());
+        if (byUserName != null || byEmail != null)
+            throw new BadRequestException("Username or email taken!");
+        if (user.getPassword() == null || user.getPassword().isBlank() || user.getPassword().isEmpty())
+            throw new BadRequestException("Password cannot be empty!");
         repository.save(user);
     }
 
