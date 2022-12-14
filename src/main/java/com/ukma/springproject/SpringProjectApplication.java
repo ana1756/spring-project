@@ -40,6 +40,7 @@ public class SpringProjectApplication {
             application.setDescription("desc");
             application.setPrice(1.21);
             application.setDeveloper(user1);
+            application.setPublished(false);
             application.setDateCreated(new Timestamp(System.currentTimeMillis()));
             Category category = new Category();
             category.setName("ADMIN");
