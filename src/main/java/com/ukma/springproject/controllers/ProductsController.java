@@ -44,7 +44,7 @@ public class ProductsController {
         User user = userDetailsService.loadUserByUsername(auth.getName()).getUser();
         Product p = productService.findById(id);
         keyService.createFromProduct(p, user);
-        return "keys";
+        return "redirect:/profile/keys";
     }
 
     @ModelAttribute(value = "key")
