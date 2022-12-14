@@ -1,7 +1,6 @@
 package com.ukma.springproject.controllers;
 
 import com.ukma.springproject.domain.User;
-import com.ukma.springproject.domain.dto.UserDTO;
 import com.ukma.springproject.service.UserService;
 import com.ukma.springproject.service.impl.DBUserDetailsService;
 import com.ukma.springproject.utils.FileUtil;
@@ -39,12 +38,12 @@ public class UserController {
     }
 
     @ModelAttribute(value = "user")
-    public UserDTO newUser() {
-        return new UserDTO();
+    public User newUser() {
+        return new User();
     }
 
     @PostMapping("/update")
-    public String saveUser(@ModelAttribute("user") UserDTO user, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+    public String saveUser(@ModelAttribute("user") User user, @RequestParam("image") MultipartFile multipartFile) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userDetailsService.loadUserByUsername(auth.getName()).getUser();
         User storedUser = userService.findById(currentUser.getId());
@@ -70,7 +69,7 @@ public class UserController {
         return "redirect:/profile";
     }
 
-    private String manageFileUpload(UserDTO user, MultipartFile multipartFile) throws IOException {
+    private String manageFileUpload(User user, MultipartFile multipartFile) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         user.setAvatarName(fileName);
         String uploadDir = "target/classes/data/avatars/" + user.getId();
