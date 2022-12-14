@@ -1,6 +1,8 @@
 package com.ukma.springproject.controllers;
 
+import com.ukma.springproject.domain.Key;
 import com.ukma.springproject.domain.User;
+import com.ukma.springproject.service.KeyService;
 import com.ukma.springproject.service.UserService;
 import com.ukma.springproject.service.impl.DBUserDetailsService;
 import com.ukma.springproject.utils.FileUtil;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/profile")
@@ -20,10 +23,12 @@ public class UserController {
 
     private final UserService userService;
     private final DBUserDetailsService userDetailsService;
+    private final KeyService keyService;
 
-    public UserController(UserService userService, DBUserDetailsService userDetailsService) {
+    public UserController(UserService userService, DBUserDetailsService userDetailsService, KeyService keyService) {
         this.userService = userService;
         this.userDetailsService = userDetailsService;
+        this.keyService = keyService;
     }
 
     @GetMapping
@@ -41,6 +46,16 @@ public class UserController {
     public User newUser() {
         return new User();
     }
+
+    @GetMapping("/keys")
+    public String showKeys(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userDetailsService.loadUserByUsername(auth.getName()).getUser();
+        List<Key> keys = keyService.findByUser(user.getId());
+        model.addAttribute("keys", keys);
+        return "keys";
+    }
+
 
     @PostMapping("/update")
     public String saveUser(@ModelAttribute("user") User user, @RequestParam("image") MultipartFile multipartFile) throws IOException {

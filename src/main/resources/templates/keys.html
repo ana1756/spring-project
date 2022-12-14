@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Game Store</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/general.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+</head>
+
+<body class="body-container">
+<!-- HEADER -->
+<header th:insert="home :: header">
+</header >
+<!-- HEADER -->
+
+<!-- MAIN -->
+<main>
+    <div class="keys-container">
+        <div th:each="key: ${keys}" class="key-card">
+            <div class="k-header">
+                <p class="k-title" th:text="${key.product.application.name}"></p>
+                <p class="k-date" th:text="${key.dateCreated}"></p>
+            </div>
+            <p class="k-value" th:text="${key.value}"></p>
+        </div>
+
+
+    </div>
+</main>
+
+<!-- MAIN -->
+
+<!-- FOOTER -->
+<footer th:insert="home :: footer">
+</footer>
+<!-- FOOTER -->
+</body>
+
+</html>
