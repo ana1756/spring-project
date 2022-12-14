@@ -103,4 +103,13 @@ public class ProductServiceImpl implements ProductService {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void buy(User user, Product product) {
+        var userBalance = user.getBalance();
+        var prodPrice = product.getApplication().getPrice();
+        if (userBalance < prodPrice)
+            throw new BadRequestException("Your balance is too low!");
+        user.setBalance(userBalance - prodPrice);
+    }
 }

@@ -43,6 +43,7 @@ public class ProductsController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userDetailsService.loadUserByUsername(auth.getName()).getUser();
         Product p = productService.findById(id);
+        productService.buy(user, p);
         keyService.createFromProduct(p, user);
         return "redirect:/profile/keys";
     }
