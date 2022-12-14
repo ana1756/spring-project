@@ -12,6 +12,13 @@ import java.util.List;
 @Table(name = "categories")
 public class Category {
 
+    public Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
     @Id
     @Column(name = "category_name")
     private String name;

@@ -12,6 +12,12 @@ import java.util.List;
 @Table(name="genres")
 public class Genre  {
 
+    public Genre(String name) {
+        this.name = name;
+    }
+
+    public Genre() {}
+
     @Id
     @Column(name = "genre_name")
     private String name;
