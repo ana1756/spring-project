@@ -16,7 +16,7 @@
 <body class="body-container">
 <!-- HEADER -->
 <header th:insert="home :: header">
-</header >
+</header>
 <!-- HEADER -->
 
 <!-- MAIN -->
@@ -24,31 +24,36 @@
 
     <div class="products-container">
         <div class="products-bar">
-            <div class="filters-container">
-                <select th:field="*{categories}">
-                    <option value="" style="display:none">category</option>
-                    <option th:each="cat : ${categories}" th:value="${cat.name}" th:text="${cat.name}"></option>
-                </select>
-                <select th:field="*{genres}">
-                    <option value="" style="display:none">genre</option>
-                    <option th:each="gen : ${genres}" th:value="${gen.name}" th:text="${gen.name}"></option>
-                </select>
-            </div>
-
-            <div class="sorting-container">
-                <div class="categories-container">
-                    <select>
-                        <option value="" style="display:none">sorting</option>
-                        <option>price: low to high</option>
-                        <option>price: high to low</option>
-                        <option>name: a to z</option>
-                        <option>name: z to a</option>
-                        <option>date: old to new</option>
-                        <option>date: new to old</option>
-
+            <form method="get" th:action="@{/products}">
+                <div class="filters-container">
+                    <select name="category">
+                        <option value="" style="display:none">category</option>
+                        <option th:each="cat : ${categories}" th:value="${cat.name}" th:text="${cat.name}"></option>
+                    </select>
+                    <select name="genre">
+                        <option value="" style="display:none">genre</option>
+                        <option th:each="gen : ${genres}" th:value="${gen.name}" th:text="${gen.name}"></option>
                     </select>
                 </div>
-            </div>
+
+                <div class="sorting-container">
+                    <div class="categories-container">
+                        <select name="sorting">
+                            <option value="" style="display:none">sorting</option>
+                            <option value="lowPrice">price: low to high</option>
+                            <option value="highPrice">price: high to low</option>
+                            <option value="aToz">name: a to z</option>
+                            <option value="zToa">name: z to a</option>
+                            <option value="oldToNew">date: old to new</option>
+                            <option value="newToOld">date: new to old</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="search-button-container">
+                    <button class="transparent-button submit-button" type="submit">Search</button>
+                </div>
+            </form>
         </div>
 
         <div th:each="prod: ${products}" class="product-card-container">
@@ -57,7 +62,8 @@
             </div>
             <div class="product-info-container">
                 <div class="p-card-header">
-                    <a th:text="${prod.application.name}" th:href="@{~/products/{id}(id=${prod.id})}" class="p-card-title"></a>
+                    <a th:text="${prod.application.name}" th:href="@{~/products/{id}(id=${prod.id})}"
+                       class="p-card-title"></a>
                     <form th:method="POST" th:action="@{~/products/buy}">
                         <input hidden name="productId" type="number" th:value="${prod.id}">
                         <button type="submit" class="transparent-button">BUY</button>

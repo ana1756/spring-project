@@ -61,6 +61,18 @@ public class ProductsController {
 
     }
 
+    @GetMapping(params = {"category", "genre", "sorting"})
+    String products(Model model,
+                    @RequestParam String category,
+                    @RequestParam String genre,
+                    @RequestParam String sorting) {
+        System.out.println("Request with params sent");
+        model.addAttribute("products", productService.getAllSortedAndFiltered(category, genre, sorting));
+        model.addAttribute("genres", genreService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
+        return "products";
+    }
+
     @GetMapping("/{id}")
     String product(@PathVariable Long id, Model model) {
         Product p = productService.findById(id);

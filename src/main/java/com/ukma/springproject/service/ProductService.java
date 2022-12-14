@@ -15,5 +15,6 @@ public interface ProductService {
     Product findById(Long id);
     List<Product> findAll();
     List<Product> findByCategory(String categoryName);
+    List<Product> getAllSortedAndFiltered(String category, String genre, String sorting);
 
 }

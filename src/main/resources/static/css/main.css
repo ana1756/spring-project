@@ -180,6 +180,7 @@ footer p {
     /*background-color: rgba(0, 0, 0, 0.69);*/
 }
 
+
 .filters-container {
     display: flex;
     justify-content: start;
@@ -190,6 +191,11 @@ footer p {
 .sorting-container {
     display: flex;
     justify-content: end;
+}
+
+.search-button-container {
+    display: flex;
+    justify-content: center;
 }
 
 .product-card-container {
@@ -390,7 +396,6 @@ footer p {
 }
 
 
-
 .profile-right-bar {
     display: flex;
     flex-direction: column;
@@ -474,7 +479,7 @@ input[type=file] {
     justify-content: start;
 
     margin-bottom: 0;
-color: white;
+    color: white;
 }
 
 .p-card-header a {
@@ -531,7 +536,6 @@ color: white;
 
     background-color: rgba(16, 1, 15, 0.82);
     padding: 6px;
-
 
 
 }

@@ -4,6 +4,7 @@ import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.domain.Category;
 import com.ukma.springproject.domain.Product;
 import com.ukma.springproject.domain.User;
+import com.ukma.springproject.exceptions.BadRequestException;
 import com.ukma.springproject.exceptions.EntityNotFoundException;
 import com.ukma.springproject.repositories.ProductRepository;
 import com.ukma.springproject.service.ProductService;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -65,4 +68,46 @@ public class ProductServiceImpl implements ProductService {
         return repository.readAllByCategory_Name(categoryName);
     }
 
+    @Override
+    public List<Product> getAllSortedAndFiltered(String category, String genre, String sorting) {
+        var allowed = new HashSet<>();
+        allowed.add("lowPrice");
+        allowed.add("highPrice");
+        allowed.add("aToz");
+        allowed.add("zToa");
+        allowed.add("oldToNew");
+        allowed.add("newToOld");
+        if (!allowed.contains(sorting))
+            throw new BadRequestException("Invalid sorting method");
+        return repository.readAllByCategory_Name(category)
+                .stream().filter(x ->
+                        x.getApplication().getGenres().stream().anyMatch(y -> y.getName().equals(genre)))
+                .sorted((o1, o2) -> {
+                    var compResult = 0;
+                    switch (sorting) {
+                        case "lowPrice":
+                            compResult = Double.compare(o1.getApplication().getPrice(), o2.getApplication().getPrice());
+                            break;
+                        case "highPrice":
+                            compResult = Double.compare(o2.getApplication().getPrice(), o1.getApplication().getPrice());
+                            break;
+                        case "aToz":
+                            compResult = o1.getApplication().getName().compareTo(o2.getApplication().getName());
+                            break;
+                        case "zToa":
+                            compResult = o2.getApplication().getName().compareTo(o1.getApplication().getName());
+                            break;
+                        case "oldToNew":
+                            compResult = o1.getDateCreated().compareTo(o2.getDateCreated());
+                            break;
+                        case "newToOld":
+                            compResult = o2.getDateCreated().compareTo(o1.getDateCreated());
+                            break;
+                        default:
+                            throw new BadRequestException("Unexpected value: " + sorting);
+                    }
+                    return compResult;
+                })
+                .collect(Collectors.toList());
+    }
 }
