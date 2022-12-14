@@ -40,6 +40,23 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    public void create(Application application) {
+        repository.save(application);
+    }
+
+    @Override
+    public List<Application> findAllByPublished(boolean flag) {
+        return repository.readAllByPublished(flag);
+    }
+
+    @Override
+    public Application findApplicationById(Long id) {
+        return repository.findById(id).orElseThrow(()
+        -> new ApplicationNotFoundException("Application by requested id does not exist"));
+    }
+
+
+    @Override
     public void delete(Long id) {
         repository.delete(mapper.map(findById(id), Application.class));
     }

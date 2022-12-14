@@ -30,6 +30,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category find(String name) {
+        //TODO exception
+        return repository.findById(name).get();
+    }
+
+    @Override
     public List<Category> findAll() {
         List<Category> categories = new ArrayList<>();
         repository.findAll().forEach(categories::add);

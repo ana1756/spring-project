@@ -31,6 +31,9 @@ public class Application  {
     @Column(nullable = false)
     private Double price;
 
+    @Column(nullable = false)
+    private Boolean published = false;
+
     @Column(length = 1000, nullable = false)
     private String description;
 

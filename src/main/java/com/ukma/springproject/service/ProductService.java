@@ -1,19 +1,19 @@
 package com.ukma.springproject.service;
 
+import com.ukma.springproject.domain.Application;
+import com.ukma.springproject.domain.Category;
 import com.ukma.springproject.domain.Product;
-import com.ukma.springproject.domain.dto.ApplicationDTO;
-import com.ukma.springproject.domain.dto.ProductDTO;
+import com.ukma.springproject.domain.User;
 
 import java.util.List;
 
 public interface ProductService {
 
-    void create(ProductDTO product);
+    void create(Product product);
+    void createFromApplication(Application application, User admin, Category category);
     void delete(Long id);
-    void approve(Long applicationId, String userEmail);
-    ProductDTO findById(Long id);
-    List<ProductDTO> findAll();
-    List<ProductDTO> findByCategory(String categoryName);
-    List<ProductDTO> findByDeveloper(Long id);
+    Product findById(Long id);
+    List<Product> findAll();
+    List<Product> findByCategory(String categoryName);
 
 }
