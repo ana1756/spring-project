@@ -48,11 +48,11 @@
             <!--            <div class="profile-balance-container">-->
             <!--                <span>BALANCE: 0.0$</span>-->
             <!--            </div>-->
-            <form method="post" class="edit-form"
+            <form th:method="POST" class="edit-form"
                   th:action="@{/profile/update}" enctype="multipart/form-data" th:object="${user}">
                 <div class="form-file-field form-field">
-                    <label class="form-file-field-label" style="width: 400px; height: 35px;" for="imageInput">Select
-                        image...</label>
+<!--                    <label class="form-file-field-label" style="width: 400px; height: 35px;" for="imageInput">Select-->
+<!--                        image...</label>-->
                     <input type="file" accept="image/*" name="image" id="imageInput">
                 </div>
 
@@ -65,9 +65,9 @@
                 <div class="form-field">
                     <input type="number" name="balance" th:field="*{balance}" th:placeholder="${user.balance}">
                 </div>
-                <div class="form-field">
-                    <input type="password" name="password" placeholder="password">
-                </div>
+<!--                <div class="form-field">-->
+<!--                    <input type="password" name="password" placeholder="password">-->
+<!--                </div>-->
 
                 <p>You will be redirected to a login page after editing your profile information</p>
                 <button class="transparent-button" type="submit" id="edit-button">Edit</button>

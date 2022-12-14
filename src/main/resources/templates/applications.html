@@ -45,38 +45,41 @@
             </div>
         </div>
 
-        <div class="product-card-container">
+        <div th:each="app: ${applications}" class="product-card-container">
             <div class="product-image-container">
-                <img class="p-card-image" src="../static/images/product-default-img.png">
+                <img class="p-card-image" th:src="@{/images/product-default-img.png}">
             </div>
             <div class="product-info-container">
                 <div class="p-card-header">
-                    <span class="p-card-title">TITLE</span>
+                    <a th:text="${app.name}"  class="p-card-title"></a>
 
-                    <button class="transparent-button">PUBLISH</button>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <form method="POST" th:action="@{/applications/publish}">
+                            <input hidden name="applicationId" type="number" th:value="${app.id}">
+                            <button type="submit" class="transparent-button">PUBLISH</button>
+                        </form>
+                    </div>
+
+
                 </div>
 
                 <div class="genres-container">
-                    <span class="p-card-genre">horror</span>
-                    <span class="p-card-genre">thriller</span>
-                    <span class="p-card-genre">action</span>
+                    <span th:each="gen: ${app.genres}"
+                          th:text="${gen.name}"
+                          class="p-card-genre"></span>
                 </div>
-                <hr>
+
                 <div class="description-container">
-                    <p>In et rhoncus nulla. Praesent feugiat, nisl vitae ullamcorper convallis, velit mi lobortis massa,
-                        posuere iaculis ipsum nisi ac dolor. Proin ac placerat turpis. Aliquam erat volutpat. Phasellus
-                        ac nunc mi. Nunc vel placerat libero, sed iaculis massa. Proin ut nisi id lacus convallis
-                        maximus et quis ex. Nam tincidunt sollicitudin posuere. Nunc vehicula enim et odio fringilla.
-                    </p>
-                    <span class="p-card-price">8.2$</span>
+                    <p th:text="${app.description}">
+                        <span th:text="${app.price}" class="p-card-price"></span>
                 </div>
 
             </div>
-        </div>
 
 
 
 
+    </div>
     </div>
 </main>
 <!-- MAIN -->

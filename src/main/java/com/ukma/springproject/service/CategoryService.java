@@ -6,6 +6,7 @@ import java.util.List;
 public interface CategoryService {
 
     void create(Category category);
+    Category find(String name);
     void delete(String name);
     List<Category> findAll();
 

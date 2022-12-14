@@ -1,6 +1,7 @@
 package com.ukma.springproject.service.impl;
 
 import com.ukma.springproject.domain.Application;
+import com.ukma.springproject.domain.User;
 import com.ukma.springproject.repositories.ApplicationRepository;
 import com.ukma.springproject.service.ApplicationService;
 import com.ukma.springproject.exceptions.ApplicationNotFoundException;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,7 +26,14 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void create(Application application) {
+    public List<Application> findAllByPublished(boolean flag) {
+        return repository.readAllByPublished(flag);
+    }
+
+    @Override
+    public void create(Application application, User developer) {
+        application.setDateCreated(new Date());
+        application.setDeveloper(developer);
         repository.save(application);
     }
 

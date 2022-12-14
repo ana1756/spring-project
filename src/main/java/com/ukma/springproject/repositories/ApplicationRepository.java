@@ -11,6 +11,6 @@ import java.util.List;
 @Transactional
 public interface ApplicationRepository extends CrudRepository<Application, Long> {
     List<Application> readAllByDeveloperId(Long id);
-
+    List<Application> readAllByPublished(boolean flag);
     void deleteAllByDeveloperEmail(String email);
 }

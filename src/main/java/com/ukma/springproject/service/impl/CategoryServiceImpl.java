@@ -25,6 +25,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category find(String name) {
+        //TODO exception
+        return repository.findById(name).get();
+    }
+
+    @Override
     public void delete(String name) {
         repository.deleteById(name);
     }

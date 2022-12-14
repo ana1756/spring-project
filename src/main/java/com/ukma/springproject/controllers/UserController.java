@@ -49,7 +49,7 @@ public class UserController {
         User storedUser = userService.findById(currentUser.getId());
 
         if (!multipartFile.isEmpty()) {
-            String fileName = manageFileUpload(user, multipartFile);
+            String fileName = manageFileUpload(storedUser, multipartFile);
             storedUser.setAvatarName(fileName);
         }
 

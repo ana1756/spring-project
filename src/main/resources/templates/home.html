@@ -22,14 +22,20 @@
         <ul class="navbar-navigation row-container">
             <li class="nav-item"><a th:href="@{~/home}">Home</a></li>
             <li class="nav-item"><a th:href="@{~/products}">Store</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{~/profile}">Profile</a></li>
+            <li sec:authorize="hasRole('DEV')" class="nav-item"><a th:href="@{~/applications/my}">My applications</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-item"><a th:href="@{~/applications/my}">Keys</a></li>
             <li sec:authorize="hasRole('DEV')" class="nav-item" style="font-size: 26px"><a th:href="@{~/applications/create}">+</a></li>
             <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a th:href="@{~/applications}">Applications</a></li>
 
+
         </ul>
         <ul class="navbar-menu row-container">
+
             <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{~/login}">Sign in</a></li>
             <li sec:authorize="isAnonymous()" class="nav-item"><a th:href="@{~/registration}">Sign up</a></li>
         </ul>
+
         <form sec:authorize="isAuthenticated()" method="POST" th:action="@{/logout}">
             <input class="nav-item btn" type="submit"  style="border: none; width: 120px; background-color: rgba(101,136,95,0); color: white; cursor: pointer" value="Sign out"/>
         </form>
