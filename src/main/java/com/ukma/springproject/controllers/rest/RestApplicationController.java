@@ -27,8 +27,9 @@ public class RestApplicationController {
     }
 
     @PostMapping("/create")
-    void createApplication(@Valid @RequestBody ApplicationDTO application) {
+    ResponseEntity<String> createApplication(@Valid @RequestBody ApplicationDTO application) {
         applicationService.create(application);
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -37,10 +38,9 @@ public class RestApplicationController {
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable Long id) {
-        var dummy = new Application();
-        dummy.setId(id);
+    ResponseEntity<String> delete(@PathVariable Long id) {
         applicationService.delete(id);
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
     @GetMapping("/developer/{id}")

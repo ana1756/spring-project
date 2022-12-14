@@ -1,16 +1,17 @@
 package com.ukma.springproject.service;
 
 import com.ukma.springproject.domain.Role;
-import com.ukma.springproject.domain.User;
+import com.ukma.springproject.domain.dto.UserDTO;
+
 import java.util.List;
 
 public interface UserService {
 
-    void save(User user);
-    void update(User user);
+    void save(UserDTO user);
+    void update(UserDTO user);
     void delete(Long id);
-    User findById(Long id);
-    User findByEmail(String email);
-    List<User> findByRole(Role role);
+    UserDTO findById(Long id);
+    UserDTO findByEmail(String email);
+    List<UserDTO> findByRole(Role role);
 
 }

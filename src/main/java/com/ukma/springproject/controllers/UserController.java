@@ -47,7 +47,7 @@ public class UserController {
     public String saveUser(@ModelAttribute("user") UserDTO user, @RequestParam("image") MultipartFile multipartFile) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userDetailsService.loadUserByUsername(auth.getName()).getUser();
-        User storedUser = userService.findById(currentUser.getId());
+        UserDTO storedUser = userService.findById(currentUser.getId());
 
         if (!multipartFile.isEmpty()) {
             String fileName = manageFileUpload(user, multipartFile);

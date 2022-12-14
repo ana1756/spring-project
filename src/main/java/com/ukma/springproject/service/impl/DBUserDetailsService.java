@@ -1,6 +1,5 @@
 package com.ukma.springproject.service.impl;
 
-import com.ukma.springproject.domain.User;
 import com.ukma.springproject.domain.UserPrincipal;
 import com.ukma.springproject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +24,12 @@ public class DBUserDetailsService implements UserDetailsService {
 
     @Override
     public UserPrincipal loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.readByEmail(email);
-        if (user == null) {
+        var userOpt = userRepository.readByEmail(email);
+        if (userOpt.isEmpty()) {
             throw new UsernameNotFoundException(email);
         }
+
+        var user = userOpt.get();
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add((GrantedAuthority) () -> user.getRole().name());

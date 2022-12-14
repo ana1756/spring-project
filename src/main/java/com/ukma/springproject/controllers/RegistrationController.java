@@ -1,6 +1,7 @@
 package com.ukma.springproject.controllers;
 
 import com.ukma.springproject.domain.User;
+import com.ukma.springproject.domain.dto.UserDTO;
 import com.ukma.springproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    String processRegistration(@ModelAttribute("user") @Valid User user,
+    String processRegistration(@ModelAttribute("user") @Valid UserDTO user,
                                Errors errors) {
         if (errors.hasErrors()) return "sign-up";
         userService.save(user);
@@ -37,8 +38,8 @@ public class RegistrationController {
     }
 
     @ModelAttribute(value = "user")
-    public User newUser(){
-        return new User();
+    public UserDTO newUser(){
+        return new UserDTO();
     }
 
 }

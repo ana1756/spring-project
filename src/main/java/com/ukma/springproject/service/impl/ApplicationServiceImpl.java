@@ -1,10 +1,13 @@
 package com.ukma.springproject.service.impl;
 
 import com.ukma.springproject.domain.Application;
+import com.ukma.springproject.domain.UserPrincipal;
 import com.ukma.springproject.domain.dto.ApplicationDTO;
 import com.ukma.springproject.repositories.ApplicationRepository;
+import com.ukma.springproject.repositories.UserRepository;
 import com.ukma.springproject.service.ApplicationService;
 import com.ukma.springproject.exceptions.ApplicationNotFoundException;
+import com.ukma.springproject.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +23,13 @@ import java.util.stream.Collectors;
 public class ApplicationServiceImpl implements ApplicationService {
 
     private final ApplicationRepository repository;
+    private final UserService userRepository;
 
     private final ModelMapper mapper;
 
     @Autowired
-    public ApplicationServiceImpl(ApplicationRepository repository, ModelMapper mapper) {
+    public ApplicationServiceImpl(ApplicationRepository repository, UserService userRepository, ModelMapper mapper) {
+        this.userRepository = userRepository;
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -66,6 +71,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<ApplicationDTO> getAllApplications() {
         return findAll();
+    }
+
+    @Override
+    public void create(ApplicationDTO application, UserPrincipal user) {
+        var realUser = userRepository.findByEmail(user.getUsername());
+        application.setDeveloper(realUser);
+        repository.save(mapper.map(application, Application.class));
     }
 
     @ExceptionHandler(ApplicationNotFoundException.class)

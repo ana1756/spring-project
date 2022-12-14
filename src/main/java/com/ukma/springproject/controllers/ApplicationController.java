@@ -1,6 +1,7 @@
 package com.ukma.springproject.controllers;
 
 import com.ukma.springproject.domain.Application;
+import com.ukma.springproject.domain.UserPrincipal;
 import com.ukma.springproject.domain.dto.ApplicationDTO;
 import com.ukma.springproject.service.ApplicationService;
 import com.ukma.springproject.service.GenreService;
@@ -9,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -41,13 +43,15 @@ public class ApplicationController {
 
     @PostMapping("create")
     String createApplication(@ModelAttribute("app") ApplicationDTO application, Errors errors) {
-        applicationService.create(application);
+        var context = SecurityContextHolder.getContext();
+        var user = (UserPrincipal) context.getAuthentication().getPrincipal();
+        applicationService.create(application, user);
         return "application";
     }
 
     @ModelAttribute(value = "app")
-    public Application newApplication() {
-        return new Application();
+    public ApplicationDTO newApplication() {
+        return new ApplicationDTO();
     }
 
     @ExceptionHandler(ApplicationNotFoundException.class)

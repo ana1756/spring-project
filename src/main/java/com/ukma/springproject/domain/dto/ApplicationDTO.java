@@ -1,6 +1,5 @@
 package com.ukma.springproject.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.Date;
@@ -23,7 +22,6 @@ public class ApplicationDTO {
 
     private UserDTO developer;
 
-    @JsonIgnore
     private List<GenreDTO> genres;
 
     private ProductDTO product;

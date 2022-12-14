@@ -2,6 +2,7 @@ package com.ukma.springproject.controllers;
 
 import com.ukma.springproject.domain.Role;
 import com.ukma.springproject.domain.User;
+import com.ukma.springproject.domain.dto.UserDTO;
 import com.ukma.springproject.exceptions.UserNotFoundException;
 import com.ukma.springproject.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ public class AdminController {
 
     @GetMapping("/addAdmin")
     public String addNewAdmin(@RequestParam(name = "email") String email) {
-        User user = userService.findByEmail(email);
+        UserDTO user = userService.findByEmail(email);
         if (user == null)
             throw new UserNotFoundException("User by email " + email + " Was not found!");
         user.setRole(Role.ROLE_ADMIN);
@@ -29,7 +30,7 @@ public class AdminController {
 
     @GetMapping("/addDev")
     public String addNewDev(@RequestParam(name = "email") String email) {
-        User user = userService.findByEmail(email);
+        UserDTO user = userService.findByEmail(email);
         if (user == null)
             throw new UserNotFoundException("User by email " + email + " Was not found!");
         user.setRole(Role.ROLE_DEV);
