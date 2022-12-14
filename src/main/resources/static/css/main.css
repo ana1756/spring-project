@@ -194,8 +194,7 @@ footer p {
 }
 
 .search-button-container {
-    display: flex;
-    justify-content: center;
+    align-self: end;
 }
 
 .product-card-container {
@@ -572,4 +571,10 @@ input[type=file] {
     display: flex;
     flex-direction: column;
     float: right;
+}
+
+#filterButton {
+    height: 50px;
+    width: 140px;
+    margin-left: 100px;
 }

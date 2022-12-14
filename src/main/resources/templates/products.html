@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 
 
 <head>
@@ -23,8 +23,9 @@
 <main>
 
     <div class="products-container">
-        <div class="products-bar">
-            <form method="get" th:action="@{/products}">
+
+        <form method="get" th:action="@{/products}">
+            <div class="products-bar">
                 <div class="filters-container">
                     <select name="category">
                         <option value="" style="display:none">category</option>
@@ -34,27 +35,29 @@
                         <option value="" style="display:none">genre</option>
                         <option th:each="gen : ${genres}" th:value="${gen.name}" th:text="${gen.name}"></option>
                     </select>
+                    <select name="sorting">
+                        <option value="" style="display:none">sorting</option>
+                        <option value="lowPrice">price: low to high</option>
+                        <option value="highPrice">price: high to low</option>
+                        <option value="aToz">name: a to z</option>
+                        <option value="zToa">name: z to a</option>
+                        <option value="oldToNew">date: old to new</option>
+                        <option value="newToOld">date: new to old</option>
+
+                    </select>
                 </div>
 
-                <div class="sorting-container">
-                    <div class="categories-container">
-                        <select name="sorting">
-                            <option value="" style="display:none">sorting</option>
-                            <option value="lowPrice">price: low to high</option>
-                            <option value="highPrice">price: high to low</option>
-                            <option value="aToz">name: a to z</option>
-                            <option value="zToa">name: z to a</option>
-                            <option value="oldToNew">date: old to new</option>
-                            <option value="newToOld">date: new to old</option>
+<!--                <div class="sorting-container">-->
+<!--                    <div class="categories-container">-->
 
-                        </select>
-                    </div>
-                </div>
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="search-button-container">
-                    <button class="transparent-button submit-button" type="submit">Search</button>
+                    <button class="transparent-button" id="filterButton" type="submit">Search</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
+
 
         <div th:each="prod: ${products}" class="product-card-container">
             <div class="product-image-container">
