@@ -13,4 +13,6 @@ public interface ApplicationRepository extends CrudRepository<Application, Long>
     List<Application> readAllByDeveloperId(Long id);
 
     void deleteAllByDeveloperEmail(String email);
+
+    List<Application> readAllByPublished(boolean flag);
 }

@@ -1,12 +1,16 @@
 package com.ukma.springproject.service.impl;
 
+import com.ukma.springproject.domain.Application;
+import com.ukma.springproject.domain.Category;
 import com.ukma.springproject.domain.Product;
+import com.ukma.springproject.domain.User;
 import com.ukma.springproject.repositories.ProductRepository;
 import com.ukma.springproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,6 +26,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void create(Product product) {
         repository.save(product);
+    }
+
+    @Override
+    public void createFromApplication(Application application, User admin, Category category){
+        Product product = new Product();
+        product.setApplication(application);
+        product.setDateCreated(new Date());
+        product.setAdmin(admin);
+        product.setCategory(category);
+        create(product);
     }
 
     @Override

@@ -24,7 +24,7 @@
         <form method="POST" th:action="@{/applications/create}" th:object="${app}" class="col-container">
             <div class="form-field">
                 <label>Title</label>
-                <input type="text" th:field="*{name}">
+                <input maxlength="40" type="text" th:field="*{name}">
             </div>
 
             <div class="form-field">
@@ -50,10 +50,6 @@
                 <label class="form-file-field-label" for="imageInput">Select image...</label>
                 <input type="file" name="image" id="imageInput">
             </div>
-<!--            <input type="hidden" th:field="*{developer}" th:value="1">-->
-<!--            <input type="hidden" th:field="*{dateCreated}"-->
-<!--                   th:value="${#calendars.format(#calendars.createNow(), 'yyyy.MMM.dd HH:mm')}">-->
-<!--            <input type="hidden" th:field="*{image}" value="pathpathpathpath">-->
             <div>
                 <button class="transparent-button submit-button" type="submit">Publish</button>
             </div>

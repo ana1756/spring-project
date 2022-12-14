@@ -7,6 +7,7 @@ public interface CategoryService {
 
     void create(Category category);
     void delete(String name);
+    Category find(String name);
     List<Category> findAll();
 
 }
