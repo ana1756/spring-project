@@ -26,7 +26,7 @@ public class EmailServiceTests {
     private EmailService emailService;
 
     @Test
-    void sendEmailInvalidData() {
+    void sendEmailWithInvalidAddress() {
         String invalidEmail = "invalid.com";
         String correctEmail = "danylo.nechyporchuk@ukma.edu.ua";
 
