@@ -2,12 +2,11 @@ package com.ukma.springproject.controllers;
 
 import com.ukma.springproject.domain.Application;
 import com.ukma.springproject.domain.Category;
+import com.ukma.springproject.domain.Role;
 import com.ukma.springproject.domain.User;
 import com.ukma.springproject.exceptions.ApplicationNotFoundException;
-import com.ukma.springproject.service.ApplicationService;
-import com.ukma.springproject.service.CategoryService;
-import com.ukma.springproject.service.GenreService;
-import com.ukma.springproject.service.ProductService;
+import com.ukma.springproject.repositories.UserRepository;
+import com.ukma.springproject.service.*;
 import com.ukma.springproject.service.impl.DBUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +19,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.ukma.springproject.domain.Role.ROLE_ADMIN;
 
 @Controller
 @RequestMapping("/applications")
@@ -30,15 +32,21 @@ public class ApplicationController {
     private final ProductService productService;
     private final DBUserDetailsService userDetailsService;
     private final CategoryService categoryService;
+    private final EmailService emailService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ApplicationController(ApplicationService applicationService,
-                                 GenreService genreService, ProductService productService, DBUserDetailsService userDetailsService, CategoryService categoryService) {
+    public ApplicationController(ApplicationService applicationService, GenreService genreService,
+                                 ProductService productService, DBUserDetailsService userDetailsService,
+                                 CategoryService categoryService, EmailService emailService,
+                                 UserRepository userRepository) {
         this.applicationService = applicationService;
         this.genreService = genreService;
         this.productService = productService;
         this.userDetailsService = userDetailsService;
         this.categoryService = categoryService;
+        this.emailService = emailService;
+        this.userRepository = userRepository;
     }
 
     /* developer creates application */
@@ -54,6 +62,10 @@ public class ApplicationController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User dev = userDetailsService.loadUserByUsername(auth.getName()).getUser();
         applicationService.create(application, dev);
+
+        List <String> allAdminsEmailsToNotify = userRepository.readAllByRole(ROLE_ADMIN).
+                stream().map(User::getEmail).collect(Collectors.toList());
+        emailService.sendAfterApplicationCreation(application, allAdminsEmailsToNotify);
         return "redirect:/applications/my";
     }
 
@@ -65,6 +77,7 @@ public class ApplicationController {
         Application app = applicationService.findById(id);
         Category cat = categoryService.find(category);
         productService.createFromApplication(app, user, cat);
+        emailService.sendAfterApplicationPublishing(app);
         return "redirect:/applications";
     }
 
