@@ -3,10 +3,7 @@ package com.ukma.springproject.controllers;
 import com.ukma.springproject.domain.Key;
 import com.ukma.springproject.domain.Product;
 import com.ukma.springproject.domain.User;
-import com.ukma.springproject.service.CategoryService;
-import com.ukma.springproject.service.GenreService;
-import com.ukma.springproject.service.KeyService;
-import com.ukma.springproject.service.ProductService;
+import com.ukma.springproject.service.*;
 import com.ukma.springproject.service.impl.DBUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,17 +21,20 @@ public class ProductsController {
     private final CategoryService categoryService;
     private final DBUserDetailsService userDetailsService;
     private final KeyService keyService;
+    private final EmailService emailService;
 
     @Autowired
     public ProductsController(
             ProductService productService,
             GenreService genreService,
-            CategoryService categoryService, DBUserDetailsService userDetailsService, KeyService keyService) {
+            CategoryService categoryService, DBUserDetailsService userDetailsService,
+            KeyService keyService, EmailService emailService) {
         this.productService = productService;
         this.genreService = genreService;
         this.categoryService = categoryService;
         this.userDetailsService = userDetailsService;
         this.keyService = keyService;
+        this.emailService = emailService;
     }
 
 
@@ -44,7 +44,8 @@ public class ProductsController {
         User user = userDetailsService.loadUserByUsername(auth.getName()).getUser();
         Product p = productService.findById(id);
         productService.buy(user, p);
-        keyService.createFromProduct(p, user);
+        Key key = keyService.createFromProduct(p, user);
+        emailService.sendAfterKeyBuying(key);
         return "redirect:/profile/keys";
     }
 
